@@ -103,15 +103,34 @@
 - **Precisou voltar atras?** Nao (apenas ajuste de porta do dev server)
 - **Quantas voltas no ciclo?** 1
 - **Completou 100%?** Sim
-- **Commits:** (pendente — aguardando confirmacao do usuario)
+- **Commits:** c275b07 feat(visao-geral): Fase 3
 - **Proximo passo sugerido:** Fase 4 — Analise por Turma (graficos comparativos)
+
+### 27/03/2026 — FASE 4: ANALISE POR TURMA
+- **O que foi pedido:** Pagina comparativa entre turmas 3A, 3B e 3C com graficos.
+- **O que foi feito:**
+  - Criado src/pages/AnaliseTurma.tsx (orquestrador)
+  - Criado src/components/analise-turma/ComparativoKpis.tsx (3 cards: media, aprovacao com Progress, risco)
+  - Criado src/components/analise-turma/GraficoEvolucaoComparativo.tsx (LineChart 3 linhas B1-B4)
+  - Criado src/components/analise-turma/GraficoAprovacaoTurma.tsx (BarChart agrupado aprovados vs reprovados)
+  - Criado src/components/analise-turma/GraficoDistribuicaoRisco.tsx (BarChart stacked Critico/Alto/Medio/Baixo)
+  - Atualizado App.tsx para renderizar AnaliseTurma na rota analise-turma
+- **Decisoes tomadas:**
+  - useAlunos('todas') — sem filtro, mostra 3 turmas simultaneamente
+  - Cores consistentes: 3A=chart-1, 3B=chart-2, 3C=chart-3
+  - Graficos inferiores em grid 2 colunas (desktop) / 1 coluna (mobile)
+- **QA — Build:** PASSOU (340ms, zero erros TS)
+- **QA — Visual:** KPIs corretos (3A:7.32/82.4%, 3B:6.53/51.5%, 3C:6.60/66.7%), graficos renderizam OK
+- **Resultado:** CONCLUIDO 100%
+- **Precisou voltar atras?** Nao
+- **Proximo passo sugerido:** Fase 5 — Alerta Precoce (sistema de risco)
 
 ## BACKLOG / PROXIMOS PASSOS
 1. [CONCLUIDO] Setup inicial
 2. [CONCLUIDO] Fase 1 — Dados e Logica (alunos.json + calculos.ts + useAlunos.ts)
 3. [CONCLUIDO] Fase 2 — Layout e Navegacao (Sidebar + PageHeader + tema dark)
 4. [CONCLUIDO] Fase 3 — Visao Geral (KPI cards + tabela + filtros + grafico)
-5. Fase 4 — Analise por Turma (graficos comparativos)
+5. [CONCLUIDO] Fase 4 — Analise por Turma (graficos comparativos)
 6. Fase 5 — Alerta Precoce (sistema de risco)
 7. Fase 6 — Integracao IA (Groq)
 8. Fase 7 — Polish e QA Final
