@@ -142,6 +142,26 @@
 - **Resultado:** CONCLUIDO 100%
 - **Proximo passo sugerido:** Fase 6 — Integracao IA (Groq)
 
+### 27/03/2026 — FASE 6: INTEGRACAO IA (GROQ)
+- **O que foi pedido:** Pagina Insights IA com analise automatica via Groq Llama 3.3 70B.
+- **O que foi feito:**
+  - Instalado groq-sdk, criado .env com VITE_GROQ_API_KEY
+  - Criado src/lib/groqClient.ts (SDK wrapper com streaming + system prompt PT-BR)
+  - Criado src/lib/promptInsights.ts (monta prompt com dados agregados do dashboard)
+  - Criado src/hooks/useInsightsIA.ts (gerencia estado: idle/streaming/done/error)
+  - Criado src/pages/InsightsIA.tsx (botao gerar, streaming com cursor pulsante, formatacao markdown)
+  - Atualizado App.tsx — todas 4 paginas agora implementadas
+  - Adicionado .env ao .gitignore
+- **Decisoes tomadas:**
+  - Chamada direta ao Groq no browser (dangerouslyAllowBrowser: true) — aceitavel para portfolio
+  - Streaming token-by-token para UX responsiva
+  - Botao manual "Gerar Analise" (nao auto-dispara para economizar tokens)
+  - Renderizacao markdown simplificada (h2/h3/bullet/bold sem lib externa)
+- **QA — Build:** PASSOU (349ms, zero erros TS)
+- **QA — Visual:** Pagina idle com estado vazio, botao gerar, streaming funcional, analise completa em PT-BR
+- **Resultado:** CONCLUIDO 100%
+- **Proximo passo sugerido:** Fase 7 — Polish e QA Final
+
 ## BACKLOG / PROXIMOS PASSOS
 1. [CONCLUIDO] Setup inicial
 2. [CONCLUIDO] Fase 1 — Dados e Logica (alunos.json + calculos.ts + useAlunos.ts)
@@ -149,6 +169,6 @@
 4. [CONCLUIDO] Fase 3 — Visao Geral (KPI cards + tabela + filtros + grafico)
 5. [CONCLUIDO] Fase 4 — Analise por Turma (graficos comparativos)
 6. [CONCLUIDO] Fase 5 — Alerta Precoce (sistema de risco)
-7. Fase 6 — Integracao IA (Groq)
+7. [CONCLUIDO] Fase 6 — Integracao IA (Groq Llama 3.3 70B)
 8. Fase 7 — Polish e QA Final
 9. Fase 8 — Deploy Final

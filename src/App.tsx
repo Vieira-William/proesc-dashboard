@@ -5,6 +5,7 @@ import { type PaginaAtiva } from './components/layout/AppSidebar'
 import { VisaoGeral } from './pages/VisaoGeral'
 import { AnaliseTurma } from './pages/AnaliseTurma'
 import { AlertaPrecoce } from './pages/AlertaPrecoce'
+import { InsightsIA } from './pages/InsightsIA'
 
 // ─── Metadados de cada página ─────────────────────────────────────────────────
 
@@ -41,16 +42,7 @@ function App() {
         {paginaAtiva === 'visao-geral' && <VisaoGeral />}
         {paginaAtiva === 'analise-turma' && <AnaliseTurma />}
         {paginaAtiva === 'alerta-precoce' && <AlertaPrecoce />}
-        {paginaAtiva !== 'visao-geral' && paginaAtiva !== 'analise-turma' && paginaAtiva !== 'alerta-precoce' && (
-          <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed">
-            <div className="text-center">
-              <p className="text-sm font-medium text-foreground">{titulo}</p>
-              <p className="text-xs text-muted-foreground mt-1">
-                Em implementação
-              </p>
-            </div>
-          </div>
-        )}
+        {paginaAtiva === 'insights-ia' && <InsightsIA />}
       </main>
     </AppLayout>
   )
