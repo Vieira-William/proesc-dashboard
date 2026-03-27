@@ -24,7 +24,7 @@ const titulos: Record<PaginaAtiva, { titulo: string; subtitulo: string }> = {
   },
   'insights-ia': {
     titulo: 'Insights IA',
-    subtitulo: 'Análise gerada automaticamente · Groq Llama 3.3 70B',
+    subtitulo: 'Analista de dados educacionais · Groq Llama 3.3 70B',
   },
 }
 
