@@ -284,3 +284,27 @@ export function distribuicaoFaixas(alunos: Aluno[]): FaixaDistribuicao[] {
     }
   })
 }
+
+// ─── Score de Engajamento ────────────────────────────────────────────────────
+
+/**
+ * Score multidimensional (0-100) derivado de 4 dimensões:
+ * - Desempenho (40%): média final normalizada
+ * - Consistência (20%): inverso da variância
+ * - Evolução (25%): melhoria B1→B4
+ * - Patamar Mínimo (15%): menor nota entre B1-B4
+ */
+export function calcularScoreEngajamento(aluno: AlunoProcessado): number {
+  const desempenho = (aluno.media / 10) * 100
+  const consistencia = Math.max(0, (1 - aluno.variancia / 6.25) * 100)
+  const evolucao = ((aluno.nota_4 - aluno.nota_1 + 10) / 20) * 100
+  const menorNota = Math.min(aluno.nota_1, aluno.nota_2, aluno.nota_3, aluno.nota_4)
+  const patamar = (menorNota / 10) * 100
+
+  return Math.round(
+    desempenho * 0.40 +
+    consistencia * 0.20 +
+    evolucao * 0.25 +
+    patamar * 0.15,
+  )
+}

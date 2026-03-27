@@ -6,6 +6,7 @@ import { KpiCards } from '@/components/visao-geral/KpiCards'
 import { GraficoEvolucao } from '@/components/visao-geral/GraficoEvolucao'
 import { TabelaAlunos } from '@/components/visao-geral/TabelaAlunos'
 import { AlunoSheet } from '@/components/visao-geral/AlunoSheet'
+import { BannerFinanceiro } from '@/components/visao-geral/BannerFinanceiro'
 
 export function VisaoGeral() {
   const [turmaFiltro, setTurmaFiltro] = useState<TurmaCodigo | 'todas'>('todas')
@@ -21,6 +22,14 @@ export function VisaoGeral() {
     <div className="flex flex-col gap-6">
       <FiltroTurma turmaAtiva={turmaFiltro} onMudar={setTurmaFiltro} />
       <KpiCards metricas={metricasVisiveis} />
+      <BannerFinanceiro
+        metricas={metricasVisiveis}
+        quaseAprovados={
+          turmaFiltro === 'todas'
+            ? dados.quaseAprovados.length
+            : dados.quaseAprovados.filter((a) => a.turma === turmaFiltro).length
+        }
+      />
       <GraficoEvolucao evolucao={metricasVisiveis.evolucaoBimestral} />
       <TabelaAlunos
         alunos={dados.alunosFiltrados}

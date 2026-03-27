@@ -21,11 +21,27 @@ interface MensagemUI {
 const sugestoes = [
   { texto: 'Gerar diagnóstico completo', destaque: true },
   { texto: 'Por que a 3B tem desempenho tão baixo?', destaque: false },
-  { texto: 'Quais alunos poderiam ser salvos com intervenção?', destaque: false },
-  { texto: 'Qual turma precisa de mais atenção?', destaque: false },
+  { texto: 'Qual o impacto financeiro total da reprovação?', destaque: false },
+  { texto: 'Quais alunos priorizar para intervenção?', destaque: false },
   { texto: 'Quem são os alunos destaque?', destaque: false },
-  { texto: 'Compare a evolução das turmas no B3 vs B4', destaque: false },
+  { texto: 'Compare a evolução das turmas', destaque: false },
 ]
+
+function montarBriefing(m: { reprovados: number; percentualAprovacao: number; quaseAprovados: number }): MensagemUI {
+  const receitaMensal = m.reprovados * 1500
+  return {
+    role: 'assistant',
+    content: `📊 **Briefing Executivo — 3º Ano 2026**
+
+• **${m.reprovados} reprovados (${(100 - m.percentualAprovacao).toFixed(0)}%)** com R$ ${receitaMensal.toLocaleString('pt-BR')}/mês em receita em risco
+• **Turma 3B** é crítica: apenas 51.5% de aprovação (vs 82.4% da 3A)
+• **${m.quaseAprovados} alunos** podem ser salvos com intervenção — faltam 0.5 a 1.0 pontos
+• **100%** dos reprovados tinham nota B1 < 6 → alerta precoce no B1 preveniria todas as reprovações
+• Tendência geral positiva: média subiu de 6.55 (B1) para 7.09 (B4)
+
+💡 Clique em uma sugestão abaixo ou faça sua própria pergunta.`,
+  }
+}
 
 // ─── Componente ─────────────────────────────────────────────────────────────
 
@@ -34,10 +50,26 @@ export function InsightsIA() {
   const contextoDados = useMemo(() => montarContextoChat(dados), [dados])
   const promptCompleto = useMemo(() => montarPrompt(dados), [dados])
 
+  const briefing = useMemo(
+    () => montarBriefing({
+      reprovados: dados.metricas.reprovados,
+      percentualAprovacao: dados.metricas.percentualAprovacao,
+      quaseAprovados: dados.quaseAprovados.length,
+    }),
+    [dados],
+  )
+
   const [mensagens, setMensagens] = useState<MensagemUI[]>([])
   const [inputTexto, setInputTexto] = useState('')
   const [gerando, setGerando] = useState(false)
   const [mostrarChips, setMostrarChips] = useState(true)
+
+  // Inicializar com briefing
+  useEffect(() => {
+    if (mensagens.length === 0) {
+      setMensagens([briefing])
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -113,12 +145,12 @@ export function InsightsIA() {
   }
 
   const limpar = () => {
-    setMensagens([])
+    setMensagens([briefing])
     setMostrarChips(true)
     setGerando(false)
   }
 
-  const temMensagens = mensagens.length > 0
+  const temMensagens = mensagens.length > 1 // briefing always present
 
   return (
     <div className="flex flex-col h-[calc(100vh-8rem)]">
@@ -150,20 +182,6 @@ export function InsightsIA() {
       {/* Área de mensagens */}
       <ScrollArea className="flex-1 rounded-lg border" ref={scrollRef}>
         <div className="flex flex-col gap-4 p-4 min-h-full">
-          {/* Estado vazio */}
-          {!temMensagens && (
-            <div className="flex flex-col items-center justify-center py-12 text-center flex-1">
-              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-4">
-                <Sparkles className="h-6 w-6 text-primary" />
-              </div>
-              <p className="text-sm font-semibold">Proesc IA</p>
-              <p className="text-xs text-muted-foreground mt-1 max-w-sm">
-                Analista de dados educacionais pronto para ajudar.
-                Clique numa sugestão ou faça uma pergunta sobre os dados.
-              </p>
-            </div>
-          )}
-
           {/* Mensagens */}
           {mensagens.map((msg, i) => (
             <div

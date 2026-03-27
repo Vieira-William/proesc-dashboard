@@ -5,6 +5,7 @@ import { FiltroTurma } from '@/components/visao-geral/FiltroTurma'
 import { KpiCardsRisco } from '@/components/alerta-precoce/KpiCardsRisco'
 import { TabelaRisco } from '@/components/alerta-precoce/TabelaRisco'
 import { PainelQuaseAprovados } from '@/components/alerta-precoce/PainelQuaseAprovados'
+import { CardScoreExplicativo } from '@/components/alerta-precoce/CardScoreExplicativo'
 
 export function AlertaPrecoce() {
   const [turmaFiltro, setTurmaFiltro] = useState<TurmaCodigo | 'todas'>('todas')
@@ -42,6 +43,7 @@ export function AlertaPrecoce() {
         quaseAprovados={quaseAprovadosFiltrados.length}
         emMelhoria={emMelhoria}
       />
+      <CardScoreExplicativo />
       <TabelaRisco alunos={alunosEmRisco} />
       <PainelQuaseAprovados quaseAprovados={quaseAprovadosFiltrados} />
     </div>

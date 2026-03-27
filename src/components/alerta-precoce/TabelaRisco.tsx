@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react'
-import { Search, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Search, ChevronLeft, ChevronRight, Mail, ClipboardList } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -20,6 +20,10 @@ import {
 } from '@/components/ui/table'
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card'
 import type { AlunoProcessado, NivelRisco, Tendencia } from '@/lib/calculos'
+import { calcularScoreEngajamento } from '@/lib/calculos'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { ModalNotificar } from './ModalNotificar'
+import { ModalPlanoEstudos } from './ModalPlanoEstudos'
 
 // ─── Helpers de estilo ──────────────────────────────────────────────────────
 
@@ -55,6 +59,8 @@ export function TabelaRisco({ alunos }: TabelaRiscoProps) {
   const [busca, setBusca] = useState('')
   const [filtroRisco, setFiltroRisco] = useState<string>('todos')
   const [paginaAtual, setPaginaAtual] = useState(0)
+  const [alunoNotificar, setAlunoNotificar] = useState<AlunoProcessado | null>(null)
+  const [alunoPlano, setAlunoPlano] = useState<AlunoProcessado | null>(null)
 
   useEffect(() => {
     setPaginaAtual(0)
@@ -124,15 +130,17 @@ export function TabelaRisco({ alunos }: TabelaRiscoProps) {
                 <TableHead className="w-16 text-center">Turma</TableHead>
                 <TableHead className="w-20">Média</TableHead>
                 <TableHead className="w-24">Risco</TableHead>
+                <TableHead className="w-16 text-center">Score</TableHead>
                 <TableHead className="w-20 text-center">Tend.</TableHead>
                 <TableHead className="w-24">Variância</TableHead>
                 <TableHead className="w-32">Notas (B1→B4)</TableHead>
+                <TableHead className="w-24 text-center">Ações</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {alunosPagina.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="h-24 text-center text-muted-foreground">
+                  <TableCell colSpan={9} className="h-24 text-center text-muted-foreground">
                     Nenhum aluno encontrado.
                   </TableCell>
                 </TableRow>
@@ -156,6 +164,13 @@ export function TabelaRisco({ alunos }: TabelaRiscoProps) {
                       </Badge>
                     </TableCell>
                     <TableCell className="text-center">
+                      {(() => {
+                        const score = calcularScoreEngajamento(a)
+                        const cor = score <= 30 ? 'text-red-500' : score <= 50 ? 'text-orange-500' : score <= 70 ? 'text-yellow-500' : 'text-emerald-500'
+                        return <span className={`text-xs font-bold tabular-nums ${cor}`}>{score}</span>
+                      })()}
+                    </TableCell>
+                    <TableCell className="text-center">
                       <span className={`text-lg font-bold ${coresTendencia[a.tendencia]}`}>
                         {a.tendencia}
                       </span>
@@ -176,12 +191,35 @@ export function TabelaRisco({ alunos }: TabelaRiscoProps) {
                         </span>
                       </div>
                     </TableCell>
+                    <TableCell>
+                      <div className="flex items-center justify-center gap-1">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setAlunoNotificar(a)}>
+                              <Mail className="h-3.5 w-3.5" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>Notificar Responsável</TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setAlunoPlano(a)}>
+                              <ClipboardList className="h-3.5 w-3.5" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>Plano de Estudos</TooltipContent>
+                        </Tooltip>
+                      </div>
+                    </TableCell>
                   </TableRow>
                 ))
               )}
             </TableBody>
           </Table>
         </div>
+
+        <ModalNotificar aluno={alunoNotificar} aberto={alunoNotificar !== null} onFechar={() => setAlunoNotificar(null)} />
+        <ModalPlanoEstudos aluno={alunoPlano} aberto={alunoPlano !== null} onFechar={() => setAlunoPlano(null)} />
 
         <div className="flex items-center justify-between px-6 pt-4">
           <p className="text-sm text-muted-foreground">
