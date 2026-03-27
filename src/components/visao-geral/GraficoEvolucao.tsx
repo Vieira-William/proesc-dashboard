@@ -1,4 +1,4 @@
-import { Area, AreaChart, CartesianGrid, ReferenceLine, XAxis, YAxis } from 'recharts'
+import { CartesianGrid, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts'
 import {
   ChartContainer,
   ChartTooltip,
@@ -33,13 +33,7 @@ export function GraficoEvolucao({ evolucao }: GraficoEvolucaoProps) {
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
-          <AreaChart data={dados} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
-            <defs>
-              <linearGradient id="gradientMedia" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="var(--chart-1)" stopOpacity={0.3} />
-                <stop offset="100%" stopColor="var(--chart-1)" stopOpacity={0.02} />
-              </linearGradient>
-            </defs>
+          <LineChart data={dados} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
             <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
             <XAxis
               dataKey="bimestre"
@@ -48,7 +42,8 @@ export function GraficoEvolucao({ evolucao }: GraficoEvolucaoProps) {
               fontSize={12}
             />
             <YAxis
-              domain={[5.5, 'auto']}
+              type="number"
+              domain={[5.5, 7.5]}
               tickFormatter={(v: number) => v.toFixed(1)}
               tickLine={false}
               axisLine={false}
@@ -63,17 +58,15 @@ export function GraficoEvolucao({ evolucao }: GraficoEvolucaoProps) {
               label={{ value: "Mín. aprovação", position: "insideTopRight", fill: "hsl(var(--muted-foreground))", fontSize: 10 }}
             />
             <ChartTooltip content={<ChartTooltipContent />} />
-            <Area
+            <Line
               type="monotone"
               dataKey="media"
               stroke="var(--chart-1)"
               strokeWidth={2}
-              fill="url(#gradientMedia)"
-              baseValue={5.5}
-              dot={false}
-              activeDot={{ r: 4 }}
+              dot={{ r: 4 }}
+              activeDot={{ r: 5 }}
             />
-          </AreaChart>
+          </LineChart>
         </ChartContainer>
       </CardContent>
     </Card>
