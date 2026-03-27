@@ -3,6 +3,7 @@ import { Search, ArrowUpDown, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import {
   Table,
   TableBody,
@@ -34,26 +35,42 @@ const coresTendencia: Record<Tendencia, string> = {
   '→': 'text-muted-foreground',
 }
 
+type FiltroStatus = 'todos' | 'Aprovado' | 'Reprovado'
+
 // ─── Componente ─────────────────────────────────────────────────────────────
 
 interface TabelaAlunosProps {
   alunos: AlunoProcessado[]
+  onAlunoClick?: (aluno: AlunoProcessado) => void
 }
 
 const ITENS_POR_PAGINA = 10
 
-export function TabelaAlunos({ alunos }: TabelaAlunosProps) {
+export function TabelaAlunos({ alunos, onAlunoClick }: TabelaAlunosProps) {
   const [busca, setBusca] = useState('')
+  const [filtroStatus, setFiltroStatus] = useState<FiltroStatus>('todos')
   const [ordenacao, setOrdenacao] = useState<'asc' | 'desc'>('desc')
   const [paginaAtual, setPaginaAtual] = useState(0)
 
-  // Reset pagina quando filtros externos mudam
+  // Contagens para os filtros
+  const contagens = useMemo(() => ({
+    todos: alunos.length,
+    aprovados: alunos.filter((a) => a.status === 'Aprovado').length,
+    reprovados: alunos.filter((a) => a.status === 'Reprovado').length,
+  }), [alunos])
+
+  // Reset pagina quando filtros mudam
   useEffect(() => {
     setPaginaAtual(0)
-  }, [alunos, busca])
+  }, [alunos, busca, filtroStatus])
 
   const alunosProcessados = useMemo(() => {
     let resultado = alunos
+
+    // Filtro por status
+    if (filtroStatus !== 'todos') {
+      resultado = resultado.filter((a) => a.status === filtroStatus)
+    }
 
     // Filtro por busca
     if (busca) {
@@ -61,13 +78,16 @@ export function TabelaAlunos({ alunos }: TabelaAlunosProps) {
       resultado = resultado.filter((a) => a.nome.toLowerCase().includes(termo))
     }
 
-    // Ordenacao por media
-    resultado = [...resultado].sort((a, b) =>
-      ordenacao === 'desc' ? b.media - a.media : a.media - b.media,
-    )
+    // Ordenacao: nome A-Z para "todos", media desc para aprovados, media asc para reprovados
+    resultado = [...resultado].sort((a, b) => {
+      if (filtroStatus === 'todos' && ordenacao === 'desc') {
+        return a.nome.localeCompare(b.nome, 'pt-BR')
+      }
+      return ordenacao === 'desc' ? b.media - a.media : a.media - b.media
+    })
 
     return resultado
-  }, [alunos, busca, ordenacao])
+  }, [alunos, busca, filtroStatus, ordenacao])
 
   const totalPaginas = Math.ceil(alunosProcessados.length / ITENS_POR_PAGINA)
   const inicio = paginaAtual * ITENS_POR_PAGINA
@@ -76,17 +96,38 @@ export function TabelaAlunos({ alunos }: TabelaAlunosProps) {
   return (
     <Card>
       <CardHeader className="pb-3">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <CardTitle className="text-base font-semibold">Alunos</CardTitle>
-          <div className="relative w-full sm:max-w-xs">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Buscar por nome..."
-              value={busca}
-              onChange={(e) => setBusca(e.target.value)}
-              className="pl-8"
-            />
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <CardTitle className="text-base font-semibold">Alunos</CardTitle>
+            <div className="relative w-full sm:max-w-xs">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Buscar por nome..."
+                value={busca}
+                onChange={(e) => setBusca(e.target.value)}
+                className="pl-8"
+              />
+            </div>
           </div>
+          <ToggleGroup
+            type="single"
+            variant="outline"
+            size="sm"
+            value={filtroStatus}
+            onValueChange={(v) => {
+              if (v) setFiltroStatus(v as FiltroStatus)
+            }}
+          >
+            <ToggleGroupItem value="todos">
+              Todos ({contagens.todos})
+            </ToggleGroupItem>
+            <ToggleGroupItem value="Aprovado">
+              Aprovados ({contagens.aprovados})
+            </ToggleGroupItem>
+            <ToggleGroupItem value="Reprovado">
+              Reprovados ({contagens.reprovados})
+            </ToggleGroupItem>
+          </ToggleGroup>
         </div>
       </CardHeader>
       <CardContent className="px-0">
@@ -123,7 +164,11 @@ export function TabelaAlunos({ alunos }: TabelaAlunosProps) {
                 </TableRow>
               ) : (
                 alunosPagina.map((a) => (
-                  <TableRow key={a.id}>
+                  <TableRow
+                    key={a.id}
+                    className={onAlunoClick ? 'cursor-pointer' : ''}
+                    onClick={() => onAlunoClick?.(a)}
+                  >
                     <TableCell className="font-medium">{a.nome}</TableCell>
                     <TableCell className="text-center">
                       <Badge variant="outline">{a.turma}</Badge>

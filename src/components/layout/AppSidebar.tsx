@@ -15,6 +15,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  useSidebar,
 } from '@/components/ui/sidebar'
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
@@ -46,6 +47,13 @@ const itensNavegacao: {
 // ─── Componente ───────────────────────────────────────────────────────────────
 
 export function AppSidebar({ paginaAtiva, onNavegar }: AppSidebarProps) {
+  const { setOpenMobile, isMobile } = useSidebar()
+
+  const handleNavegar = (pagina: PaginaAtiva) => {
+    onNavegar(pagina)
+    if (isMobile) setOpenMobile(false)
+  }
+
   return (
     <Sidebar collapsible="icon">
       {/* Logo */}
@@ -83,7 +91,7 @@ export function AppSidebar({ paginaAtiva, onNavegar }: AppSidebarProps) {
                 <SidebarMenuItem key={pagina}>
                   <SidebarMenuButton
                     isActive={paginaAtiva === pagina}
-                    onClick={() => onNavegar(pagina)}
+                    onClick={() => handleNavegar(pagina)}
                     tooltip={label}
                   >
                     <Icone className="size-4" />
@@ -100,7 +108,7 @@ export function AppSidebar({ paginaAtiva, onNavegar }: AppSidebarProps) {
       <SidebarFooter className="p-4 pt-2">
         <div className="group-data-[collapsible=icon]:hidden flex items-center gap-2 text-xs text-sidebar-foreground/50">
           <GraduationCap className="size-3.5 shrink-0" />
-          <span className="truncate">3º Ano — 2025</span>
+          <span className="truncate">3º Ano — 2026</span>
         </div>
       </SidebarFooter>
 

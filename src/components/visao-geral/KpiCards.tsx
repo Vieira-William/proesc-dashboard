@@ -18,7 +18,7 @@ export function KpiCards({ metricas }: KpiCardsProps) {
   const tendenciaPct = ev.b1 > 0 ? ((ev.b4 - ev.b1) / ev.b1) * 100 : 0
   const tendenciaPositiva = tendenciaPct >= 0
 
-  const riscoAlto = metricas.distribuicaoRisco.critico + metricas.distribuicaoRisco.alto
+  const riscoTotal = metricas.distribuicaoRisco.critico + metricas.distribuicaoRisco.alto + metricas.distribuicaoRisco.medio
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -104,9 +104,9 @@ export function KpiCards({ metricas }: KpiCardsProps) {
           <AlertTriangle className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <p className="text-2xl font-bold text-red-500">{riscoAlto}</p>
+          <p className="text-2xl font-bold text-red-500">{riscoTotal}</p>
           <p className="text-xs text-muted-foreground">
-            {metricas.distribuicaoRisco.critico} críticos, {metricas.distribuicaoRisco.alto} alto risco
+            {metricas.distribuicaoRisco.critico} críticos · {metricas.distribuicaoRisco.alto} alto · {metricas.distribuicaoRisco.medio} médio
           </p>
         </CardContent>
       </Card>

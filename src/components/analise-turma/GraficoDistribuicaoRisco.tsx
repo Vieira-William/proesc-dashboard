@@ -15,10 +15,10 @@ interface GraficoDistribuicaoRiscoProps {
 }
 
 const chartConfig: ChartConfig = {
-  critico: { label: 'Crítico', color: 'oklch(0.637 0.237 25.331)' },
-  alto: { label: 'Alto', color: 'oklch(0.705 0.213 47.604)' },
-  medio: { label: 'Médio', color: 'oklch(0.795 0.184 86.047)' },
-  baixo: { label: 'Baixo', color: 'oklch(0.765 0.177 163.223)' },
+  critico: { label: 'Crítico', color: 'oklch(0.60 0.18 25)' },
+  alto: { label: 'Alto', color: 'oklch(0.68 0.16 50)' },
+  medio: { label: 'Médio', color: 'oklch(0.78 0.14 85)' },
+  baixo: { label: 'Baixo', color: 'oklch(0.72 0.14 163)' },
 }
 
 const turmas: TurmaCodigo[] = ['3A', '3B', '3C']

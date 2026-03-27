@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Sparkles, RefreshCw, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card'
@@ -7,11 +7,14 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useAlunos } from '@/hooks/useAlunos'
 import { useInsightsIA } from '@/hooks/useInsightsIA'
-import { montarPrompt } from '@/lib/promptInsights'
+import { montarPrompt, montarContextoChat } from '@/lib/promptInsights'
+import { ChatIA } from '@/components/insights-ia/ChatIA'
 
 export function InsightsIA() {
   const dados = useAlunos('todas')
   const { texto, status, erro, gerar, limpar } = useInsightsIA()
+
+  const contextoDados = useMemo(() => montarContextoChat(dados), [dados])
 
   const handleGerar = useCallback(() => {
     const prompt = montarPrompt(dados)
@@ -145,6 +148,13 @@ export function InsightsIA() {
           </CardContent>
         </Card>
       )}
+
+      {/* Chat interativo */}
+      <Card>
+        <CardContent className="pt-6">
+          <ChatIA contextoDados={contextoDados} />
+        </CardContent>
+      </Card>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts'
+import { Area, AreaChart, CartesianGrid, ReferenceLine, XAxis, YAxis } from 'recharts'
 import {
   ChartContainer,
   ChartTooltip,
@@ -48,10 +48,19 @@ export function GraficoEvolucao({ evolucao }: GraficoEvolucaoProps) {
               fontSize={12}
             />
             <YAxis
-              domain={['dataMin - 0.5', 'dataMax + 0.5']}
+              domain={[5.5, 'auto']}
+              tickFormatter={(v: number) => v.toFixed(1)}
               tickLine={false}
               axisLine={false}
               fontSize={12}
+              width={40}
+            />
+            <ReferenceLine
+              y={6}
+              stroke="hsl(var(--muted-foreground))"
+              strokeDasharray="6 4"
+              strokeOpacity={0.4}
+              label={{ value: "Mín. aprovação", position: "insideTopRight", fill: "hsl(var(--muted-foreground))", fontSize: 10 }}
             />
             <ChartTooltip content={<ChartTooltipContent />} />
             <Area

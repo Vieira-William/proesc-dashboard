@@ -57,3 +57,18 @@ ${quase5}
 
 Gere uma análise completa com diagnóstico, padrões, recomendações e prioridades de intervenção.`
 }
+
+export function montarContextoChat(dados: DadosProcessados): string {
+  const m = dados.metricas
+  const ev = m.evolucaoBimestral
+  const r = m.distribuicaoRisco
+
+  const turmasResumo = turmas
+    .map((t) => {
+      const mt = dados.metricasPorTurma[t]
+      return `${t}: ${mt.total} alunos, média ${mt.mediaGeral}, aprovação ${mt.percentualAprovacao}%`
+    })
+    .join(' | ')
+
+  return `100 alunos do 3º ano, 3 turmas. Média geral: ${m.mediaGeral}. Aprovados: ${m.aprovados} (${m.percentualAprovacao}%). Reprovados: ${m.reprovados}. Evolução: B1=${ev.b1}→B2=${ev.b2}→B3=${ev.b3}→B4=${ev.b4}. Risco: ${r.critico}C ${r.alto}A ${r.medio}M ${r.baixo}B. Turmas: ${turmasResumo}. Quase aprovados: ${dados.quaseAprovados.length}. 100% dos alunos com nota B1<6 reprovaram.`
+}
