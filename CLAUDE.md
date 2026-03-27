@@ -125,13 +125,30 @@
 - **Precisou voltar atras?** Nao
 - **Proximo passo sugerido:** Fase 5 — Alerta Precoce (sistema de risco)
 
+### 27/03/2026 — FASE 5: ALERTA PRECOCE
+- **O que foi pedido:** Pagina de alerta precoce focada em alunos em risco com priorizacao.
+- **O que foi feito:**
+  - Criado src/pages/AlertaPrecoce.tsx (orquestrador com filtro de turma)
+  - Criado src/components/alerta-precoce/KpiCardsRisco.tsx (4 cards: Critico, Alto, Quase Aprovados, Em Melhoria)
+  - Criado src/components/alerta-precoce/TabelaRisco.tsx (tabela com select de risco, busca, variancia, notas B1→B4, ordenacao por gravidade)
+  - Criado src/components/alerta-precoce/PainelQuaseAprovados.tsx (Alert component com grid de 16 alunos + badge "falta X.X")
+  - Atualizado App.tsx para rota alerta-precoce
+- **Decisoes tomadas:**
+  - Filtro turma reutilizado de visao-geral/FiltroTurma.tsx
+  - Tabela mostra apenas risco nao-Baixo (33 alunos), ordenados Critico→Alto→Medio, depois media asc
+  - Painel quase aprovados com Alert do shadcn + borda amarela destacada
+- **QA — Build:** PASSOU (327ms, zero erros TS)
+- **QA — Visual:** KPIs corretos (6C, 11A, 16QA, 23EM), tabela 33 alunos, painel 16 quase aprovados
+- **Resultado:** CONCLUIDO 100%
+- **Proximo passo sugerido:** Fase 6 — Integracao IA (Groq)
+
 ## BACKLOG / PROXIMOS PASSOS
 1. [CONCLUIDO] Setup inicial
 2. [CONCLUIDO] Fase 1 — Dados e Logica (alunos.json + calculos.ts + useAlunos.ts)
 3. [CONCLUIDO] Fase 2 — Layout e Navegacao (Sidebar + PageHeader + tema dark)
 4. [CONCLUIDO] Fase 3 — Visao Geral (KPI cards + tabela + filtros + grafico)
 5. [CONCLUIDO] Fase 4 — Analise por Turma (graficos comparativos)
-6. Fase 5 — Alerta Precoce (sistema de risco)
+6. [CONCLUIDO] Fase 5 — Alerta Precoce (sistema de risco)
 7. Fase 6 — Integracao IA (Groq)
 8. Fase 7 — Polish e QA Final
 9. Fase 8 — Deploy Final

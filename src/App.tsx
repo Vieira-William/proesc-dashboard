@@ -4,6 +4,7 @@ import { PageHeader } from './components/layout/PageHeader'
 import { type PaginaAtiva } from './components/layout/AppSidebar'
 import { VisaoGeral } from './pages/VisaoGeral'
 import { AnaliseTurma } from './pages/AnaliseTurma'
+import { AlertaPrecoce } from './pages/AlertaPrecoce'
 
 // ─── Metadados de cada página ─────────────────────────────────────────────────
 
@@ -39,7 +40,8 @@ function App() {
       <main className="flex flex-1 flex-col gap-6 p-4 lg:p-6">
         {paginaAtiva === 'visao-geral' && <VisaoGeral />}
         {paginaAtiva === 'analise-turma' && <AnaliseTurma />}
-        {paginaAtiva !== 'visao-geral' && paginaAtiva !== 'analise-turma' && (
+        {paginaAtiva === 'alerta-precoce' && <AlertaPrecoce />}
+        {paginaAtiva !== 'visao-geral' && paginaAtiva !== 'analise-turma' && paginaAtiva !== 'alerta-precoce' && (
           <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed">
             <div className="text-center">
               <p className="text-sm font-medium text-foreground">{titulo}</p>
