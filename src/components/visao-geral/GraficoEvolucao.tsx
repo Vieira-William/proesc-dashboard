@@ -69,6 +69,7 @@ export function GraficoEvolucao({ evolucao }: GraficoEvolucaoProps) {
               stroke="var(--chart-1)"
               strokeWidth={2}
               fill="url(#gradientMedia)"
+              baseValue={5.5}
               dot={false}
               activeDot={{ r: 4 }}
             />

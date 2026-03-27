@@ -15,8 +15,8 @@ interface GraficoAprovacaoTurmaProps {
 }
 
 const chartConfig: ChartConfig = {
-  aprovados: { label: 'Aprovados', color: 'oklch(0.72 0.14 163)' },
-  reprovados: { label: 'Reprovados', color: 'oklch(0.60 0.18 25)' },
+  aprovados: { label: 'Aprovados', color: 'rgba(52, 211, 153, 0.55)' },
+  reprovados: { label: 'Reprovados', color: 'rgba(239, 68, 68, 0.80)' },
 }
 
 const turmas: TurmaCodigo[] = ['3A', '3B', '3C']
