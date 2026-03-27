@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { AppLayout } from './components/layout/AppLayout'
 import { PageHeader } from './components/layout/PageHeader'
 import { type PaginaAtiva } from './components/layout/AppSidebar'
+import { VisaoGeral } from './pages/VisaoGeral'
 
 // ─── Metadados de cada página ─────────────────────────────────────────────────
 
@@ -35,15 +36,17 @@ function App() {
     <AppLayout paginaAtiva={paginaAtiva} onNavegar={setPaginaAtiva}>
       <PageHeader titulo={titulo} subtitulo={subtitulo} />
       <main className="flex flex-1 flex-col gap-6 p-4 lg:p-6">
-        {/* Conteúdo será implementado nas Fases 3–6 */}
-        <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed">
-          <div className="text-center">
-            <p className="text-sm font-medium text-foreground">{titulo}</p>
-            <p className="text-xs text-muted-foreground mt-1">
-              Fase 2 concluída — conteúdo em implementação
-            </p>
+        {paginaAtiva === 'visao-geral' && <VisaoGeral />}
+        {paginaAtiva !== 'visao-geral' && (
+          <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed">
+            <div className="text-center">
+              <p className="text-sm font-medium text-foreground">{titulo}</p>
+              <p className="text-xs text-muted-foreground mt-1">
+                Em implementação
+              </p>
+            </div>
           </div>
-        </div>
+        )}
       </main>
     </AppLayout>
   )

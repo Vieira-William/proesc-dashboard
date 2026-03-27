@@ -1,0 +1,187 @@
+import { useState, useMemo, useEffect } from 'react'
+import { Search, ArrowUpDown, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card'
+import type { AlunoProcessado, StatusAluno, NivelRisco, Tendencia } from '@/lib/calculos'
+
+// ─── Helpers de estilo ──────────────────────────────────────────────────────
+
+const coresStatus: Record<StatusAluno, string> = {
+  Aprovado: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
+  Reprovado: 'bg-red-500/10 text-red-500 border-red-500/20',
+}
+
+const coresRisco: Record<NivelRisco, string> = {
+  'Crítico': 'bg-red-500/10 text-red-500 border-red-500/20',
+  'Alto': 'bg-orange-500/10 text-orange-500 border-orange-500/20',
+  'Médio': 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20',
+  'Baixo': 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
+}
+
+const coresTendencia: Record<Tendencia, string> = {
+  '↑': 'text-emerald-500',
+  '↓': 'text-red-500',
+  '→': 'text-muted-foreground',
+}
+
+// ─── Componente ─────────────────────────────────────────────────────────────
+
+interface TabelaAlunosProps {
+  alunos: AlunoProcessado[]
+}
+
+const ITENS_POR_PAGINA = 10
+
+export function TabelaAlunos({ alunos }: TabelaAlunosProps) {
+  const [busca, setBusca] = useState('')
+  const [ordenacao, setOrdenacao] = useState<'asc' | 'desc'>('desc')
+  const [paginaAtual, setPaginaAtual] = useState(0)
+
+  // Reset pagina quando filtros externos mudam
+  useEffect(() => {
+    setPaginaAtual(0)
+  }, [alunos, busca])
+
+  const alunosProcessados = useMemo(() => {
+    let resultado = alunos
+
+    // Filtro por busca
+    if (busca) {
+      const termo = busca.toLowerCase()
+      resultado = resultado.filter((a) => a.nome.toLowerCase().includes(termo))
+    }
+
+    // Ordenacao por media
+    resultado = [...resultado].sort((a, b) =>
+      ordenacao === 'desc' ? b.media - a.media : a.media - b.media,
+    )
+
+    return resultado
+  }, [alunos, busca, ordenacao])
+
+  const totalPaginas = Math.ceil(alunosProcessados.length / ITENS_POR_PAGINA)
+  const inicio = paginaAtual * ITENS_POR_PAGINA
+  const alunosPagina = alunosProcessados.slice(inicio, inicio + ITENS_POR_PAGINA)
+
+  return (
+    <Card>
+      <CardHeader className="pb-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <CardTitle className="text-base font-semibold">Alunos</CardTitle>
+          <div className="relative w-full sm:max-w-xs">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Buscar por nome..."
+              value={busca}
+              onChange={(e) => setBusca(e.target.value)}
+              className="pl-8"
+            />
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent className="px-0">
+        <div className="relative w-full overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Nome</TableHead>
+                <TableHead className="w-16 text-center">Turma</TableHead>
+                <TableHead className="w-24">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="-ml-3 h-8 font-medium"
+                    onClick={() =>
+                      setOrdenacao((o) => (o === 'desc' ? 'asc' : 'desc'))
+                    }
+                  >
+                    Média
+                    <ArrowUpDown className="ml-1 h-3 w-3" />
+                  </Button>
+                </TableHead>
+                <TableHead className="w-24">Status</TableHead>
+                <TableHead className="w-24">Risco</TableHead>
+                <TableHead className="w-20 text-center">Tend.</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {alunosPagina.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6} className="h-24 text-center text-muted-foreground">
+                    Nenhum aluno encontrado.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                alunosPagina.map((a) => (
+                  <TableRow key={a.id}>
+                    <TableCell className="font-medium">{a.nome}</TableCell>
+                    <TableCell className="text-center">
+                      <Badge variant="outline">{a.turma}</Badge>
+                    </TableCell>
+                    <TableCell className="font-mono tabular-nums">
+                      {a.media.toFixed(1)}
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className={coresStatus[a.status]}>
+                        {a.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className={coresRisco[a.risco]}>
+                        {a.risco}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <span className={`text-lg font-bold ${coresTendencia[a.tendencia]}`}>
+                        {a.tendencia}
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </div>
+
+        {/* Footer — paginação */}
+        <div className="flex items-center justify-between px-6 pt-4">
+          <p className="text-sm text-muted-foreground">
+            Mostrando {alunosProcessados.length === 0 ? 0 : inicio + 1}–
+            {Math.min(inicio + ITENS_POR_PAGINA, alunosProcessados.length)} de{' '}
+            {alunosProcessados.length} alunos
+          </p>
+          <div className="flex gap-1">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8"
+              disabled={paginaAtual === 0}
+              onClick={() => setPaginaAtual((p) => p - 1)}
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8"
+              disabled={paginaAtual >= totalPaginas - 1}
+              onClick={() => setPaginaAtual((p) => p + 1)}
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}

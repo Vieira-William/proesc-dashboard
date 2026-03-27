@@ -75,11 +75,42 @@
 - **Commits:** feat(dados): logica de calculo e hook central com 100 alunos
 - **Proximo passo sugerido:** Fase 2 — Layout e Navegacao (Sidebar + PageHeader + tema dark)
 
+### 27/03/2026 — FASE 3: VISAO GERAL
+- **O que foi pedido:** Implementar pagina Visao Geral com KPI cards, filtro de turma, grafico de evolucao bimestral e tabela de alunos com busca/ordenacao/paginacao.
+- **O que foi feito:**
+  - Criado src/pages/VisaoGeral.tsx (orquestrador da pagina)
+  - Criado src/components/visao-geral/FiltroTurma.tsx (ToggleGroup: Todas/3A/3B/3C)
+  - Criado src/components/visao-geral/KpiCards.tsx (4 cards: Total, Media, Aprovacao, Risco)
+  - Criado src/components/visao-geral/GraficoEvolucao.tsx (AreaChart Recharts via shadcn Chart)
+  - Criado src/components/visao-geral/TabelaAlunos.tsx (tabela com busca, sort, paginacao 10/pagina)
+  - Atualizado App.tsx para renderizar VisaoGeral na rota visao-geral
+  - Instalado react-is (peer dep do Recharts)
+  - Adicionado server.port=4000 no vite.config.ts (evitar conflito de portas)
+  - Atualizado .claude/launch.json com porta 4000
+- **Decisoes tomadas:**
+  - MetricasTurma extends MetricasGlobais: KpiCards aceita ambos sem cast
+  - metricasVisiveis: quando turma filtrada, usa metricasPorTurma[turma] para KPIs refletirem a turma
+  - Estado turmaFiltro vive em VisaoGeral.tsx (controla todo o fluxo de dados)
+  - Tabela com estado local (busca, ordenacao, paginacao) — reset automatico ao trocar turma
+- **QA — Teste por codigo:**
+  - Build: PASSOU (370ms, zero erros TypeScript)
+- **QA — Verificacao visual (preview):**
+  - KPI cards renderizam corretamente com valores do PRD
+  - Filtro 3B: Total=33, Media=6.53, Aprovacao=51.5%, Risco=11 (0 criticos, 11 alto) — CORRETO
+  - Grafico evolucao bimestral com area chart verde + gradient
+  - Tabela com badges coloridos (status, risco), setas de tendencia, paginacao funcional
+- **Resultado:** CONCLUIDO 100%
+- **Precisou voltar atras?** Nao (apenas ajuste de porta do dev server)
+- **Quantas voltas no ciclo?** 1
+- **Completou 100%?** Sim
+- **Commits:** (pendente — aguardando confirmacao do usuario)
+- **Proximo passo sugerido:** Fase 4 — Analise por Turma (graficos comparativos)
+
 ## BACKLOG / PROXIMOS PASSOS
-1. [CONCLUIDO] Setup inicial (95% — push pendente)
+1. [CONCLUIDO] Setup inicial
 2. [CONCLUIDO] Fase 1 — Dados e Logica (alunos.json + calculos.ts + useAlunos.ts)
-3. Fase 2 — Layout e Navegacao (Sidebar + PageHeader + tema dark)
-4. Fase 3 — Visao Geral (KPI cards + tabela + filtros)
+3. [CONCLUIDO] Fase 2 — Layout e Navegacao (Sidebar + PageHeader + tema dark)
+4. [CONCLUIDO] Fase 3 — Visao Geral (KPI cards + tabela + filtros + grafico)
 5. Fase 4 — Analise por Turma (graficos comparativos)
 6. Fase 5 — Alerta Precoce (sistema de risco)
 7. Fase 6 — Integracao IA (Groq)
