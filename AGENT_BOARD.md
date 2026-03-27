@@ -12,7 +12,7 @@
 
 | Agente | Status | Tarefa | Proximo Passo | Atualizado em |
 |--------|--------|--------|---------------|---------------|
-| **Claude Code** | EM ANDAMENTO | Setup inicial — Checklist Pre-Codigo | Concluir setup e push | 27/03/2026 15:40 |
+| **Claude Code** | EM ANDAMENTO | Fase 2 — Layout e Navegacao | Criar Sidebar + PageHeader + tema dark | 27/03/2026 |
 
 ---
 
@@ -20,4 +20,5 @@
 
 | Data | Agente | Descricao | Commit |
 |------|--------|-----------|--------|
-| — | — | — | — |
+| 27/03/2026 | Claude Code | Setup inicial: Vite+React+TS, shadcn/ui, dark mode, logos, inspiracoes | 09c6852 |
+| 27/03/2026 | Claude Code | Fase 1: alunos.json + calculos.ts + useAlunos.ts (21/21 metricas PRD ✓) | feat(dados) |
