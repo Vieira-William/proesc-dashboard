@@ -1,10 +1,51 @@
+import { useState } from 'react'
+import { AppLayout } from './components/layout/AppLayout'
+import { PageHeader } from './components/layout/PageHeader'
+import { type PaginaAtiva } from './components/layout/AppSidebar'
+
+// ─── Metadados de cada página ─────────────────────────────────────────────────
+
+const titulos: Record<PaginaAtiva, { titulo: string; subtitulo: string }> = {
+  'visao-geral': {
+    titulo: 'Visão Geral',
+    subtitulo: '100 alunos · 3 turmas · 4 bimestres',
+  },
+  'analise-turma': {
+    titulo: 'Análise por Turma',
+    subtitulo: 'Comparativo de desempenho entre 3A, 3B e 3C',
+  },
+  'alerta-precoce': {
+    titulo: 'Alerta Precoce',
+    subtitulo: 'Alunos em risco identificados por IA preditiva',
+  },
+  'insights-ia': {
+    titulo: 'Insights IA',
+    subtitulo: 'Análise gerada automaticamente · Groq Llama 3.3 70B',
+  },
+}
+
+// ─── App ──────────────────────────────────────────────────────────────────────
+
 function App() {
+  const [paginaAtiva, setPaginaAtiva] = useState<PaginaAtiva>('visao-geral')
+
+  const { titulo, subtitulo } = titulos[paginaAtiva]
+
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <p className="p-6 text-muted-foreground">
-        Proesc Dashboard — Setup concluido. Aguardando implementacao.
-      </p>
-    </div>
+    <AppLayout paginaAtiva={paginaAtiva} onNavegar={setPaginaAtiva}>
+      <PageHeader titulo={titulo} subtitulo={subtitulo} />
+      <main className="flex flex-1 flex-col gap-6 p-4 lg:p-6">
+        {/* Conteúdo será implementado nas Fases 3–6 */}
+        <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed">
+          <div className="text-center">
+            <p className="text-sm font-medium text-foreground">{titulo}</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              Fase 2 concluída — conteúdo em implementação
+            </p>
+          </div>
+        </div>
+      </main>
+    </AppLayout>
   )
 }
 

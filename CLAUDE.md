@@ -13,12 +13,12 @@
 - **Prazo final:** 29/03/2026, 23h59
 - **Dados:** 100 alunos do 3o ano, 3 turmas (3A, 3B, 3C), 4 notas bimestrais.
 - **Idioma obrigatorio:** Portugues Brasileiro em TUDO — codigo de interface, comentarios, commits, documentacao, raciocinios, variaveis de UI. Unicos em ingles: nomes de funcoes/variaveis tecnicas e dependencias.
-- **Repositorio GitHub:** https://github.com/williammarangon/proesc-dashboard
+- **Repositorio GitHub:** https://github.com/Vieira-William/proesc-dashboard
 - **Link de producao:** (sera preenchido apos deploy na Vercel)
 
 ## LINKS CRITICOS
 - **Vercel (producao):** (a definir)
-- **GitHub:** https://github.com/williammarangon/proesc-dashboard
+- **GitHub:** https://github.com/Vieira-William/proesc-dashboard
 - **Vercel Dashboard:** (a definir)
 - **Brand guide Proesc:** proesc.howwebrand.com
 
