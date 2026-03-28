@@ -15,7 +15,7 @@ export function PageHeader({ titulo, subtitulo, acoes }: PageHeaderProps) {
   return (
     <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-3 border-b border-border/50 bg-background/95 backdrop-blur-sm px-4 lg:px-6">
       <SidebarTrigger className="-ml-1" />
-      <Separator orientation="vertical" className="h-5" />
+      <Separator orientation="vertical" className="!h-5 !self-center" />
 
       <div className="flex min-w-0 flex-1 flex-col justify-center">
         <h1 className="text-sm font-semibold leading-none tracking-tight truncate">
