@@ -37,17 +37,17 @@ export function GraficoEvolucaoComparativo({ metricasPorTurma }: GraficoEvolucao
   return (
     <Card>
       <CardHeader className="pb-2">
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <CardTitle className="text-base font-medium flex items-center gap-1.5 cursor-help">
-              Evolução Bimestral por Turma
-              <Info className="h-3.5 w-3.5 text-muted-foreground/50" />
-            </CardTitle>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" className="max-w-[300px] text-xs">
-            <p>Média de todos os alunos da turma em cada bimestre. A linha pontilhada marca a nota mínima de aprovação (6.0).</p>
-          </TooltipContent>
-        </Tooltip>
+        <CardTitle className="text-base font-medium flex items-center gap-1.5">
+          Evolução Bimestral por Turma
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Info className="h-3.5 w-3.5 text-muted-foreground/50 cursor-help" />
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="max-w-[300px] text-xs">
+              <p>Média de todos os alunos da turma em cada bimestre. A linha pontilhada marca a nota mínima de aprovação (6.0).</p>
+            </TooltipContent>
+          </Tooltip>
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">

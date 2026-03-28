@@ -40,17 +40,17 @@ export function GraficoDistribuicaoRisco({ metricasPorTurma }: GraficoDistribuic
   return (
     <Card>
       <CardHeader className="pb-2">
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <CardTitle className="text-base font-medium flex items-center gap-1.5 cursor-help">
-              Distribuição de Risco
-              <Info className="h-3.5 w-3.5 text-muted-foreground/50" />
-            </CardTitle>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" className="max-w-[300px] text-xs">
-            <p>Distribuição dos níveis de risco por turma. Quanto mais vermelho/laranja, mais alunos precisam de atenção. A turma 3C concentra todos os alunos de risco crítico.</p>
-          </TooltipContent>
-        </Tooltip>
+        <CardTitle className="text-base font-medium flex items-center gap-1.5">
+          Distribuição de Risco
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Info className="h-3.5 w-3.5 text-muted-foreground/50 cursor-help" />
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="max-w-[300px] text-xs">
+              <p>Distribuição dos níveis de risco por turma. Quanto mais vermelho/laranja, mais alunos precisam de atenção. A turma 3C concentra todos os alunos de risco crítico.</p>
+            </TooltipContent>
+          </Tooltip>
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
