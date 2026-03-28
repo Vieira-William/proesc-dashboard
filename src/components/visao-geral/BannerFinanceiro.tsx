@@ -40,10 +40,10 @@ export function BannerFinanceiro({ metricas, quaseAprovados }: BannerFinanceiroP
   }))
 
   const composicaoRisco = [
-    { name: 'Crítico', value: metricas.distribuicaoRisco.critico, color: 'rgba(239, 68, 68, 0.8)' },
-    { name: 'Alto', value: metricas.distribuicaoRisco.alto, color: 'rgba(249, 115, 22, 0.8)' },
-    { name: 'Médio', value: metricas.distribuicaoRisco.medio, color: 'rgba(234, 179, 8, 0.8)' },
-    { name: 'Baixo', value: metricas.distribuicaoRisco.baixo, color: 'rgba(52, 211, 153, 0.35)' },
+    { name: 'Crítico', value: metricas.distribuicaoRisco.critico, color: 'oklch(0.67 0.17 154 / 0.15)' },
+    { name: 'Alto', value: metricas.distribuicaoRisco.alto, color: 'oklch(0.67 0.17 154 / 0.25)' },
+    { name: 'Médio', value: metricas.distribuicaoRisco.medio, color: 'oklch(0.67 0.17 154 / 0.40)' },
+    { name: 'Baixo', value: metricas.distribuicaoRisco.baixo, color: 'oklch(0.67 0.17 154)' },
   ]
 
   return (
@@ -116,8 +116,8 @@ export function BannerFinanceiro({ metricas, quaseAprovados }: BannerFinanceiroP
                 </TooltipContent>
               </Tooltip>
             </div>
-            <div className="h-8 w-8 rounded-md bg-orange-500/10 flex items-center justify-center">
-              <PieChartIcon className="h-4 w-4 text-orange-400" />
+            <div className="h-8 w-8 rounded-md bg-muted flex items-center justify-center">
+              <PieChartIcon className="h-4 w-4 text-muted-foreground" />
             </div>
           </div>
         </CardHeader>
@@ -130,8 +130,8 @@ export function BannerFinanceiro({ metricas, quaseAprovados }: BannerFinanceiroP
                     data={composicaoRisco}
                     cx="50%"
                     cy="50%"
-                    innerRadius={45}
-                    outerRadius={65}
+                    innerRadius={50}
+                    outerRadius={70}
                     paddingAngle={2}
                     dataKey="value"
                     strokeWidth={0}
@@ -151,19 +151,19 @@ export function BannerFinanceiro({ metricas, quaseAprovados }: BannerFinanceiroP
 
           <div className="grid grid-cols-2 gap-2">
             <div className="flex items-center gap-2">
-              <div className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
+              <div className="h-2.5 w-2.5 rounded-full" style={{ background: 'oklch(0.67 0.17 154 / 0.15)' }} />
               <span className="text-xs text-muted-foreground">{metricas.distribuicaoRisco.critico} Críticos</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="h-2.5 w-2.5 rounded-full bg-orange-500/80" />
+              <div className="h-2.5 w-2.5 rounded-full" style={{ background: 'oklch(0.67 0.17 154 / 0.25)' }} />
               <span className="text-xs text-muted-foreground">{metricas.distribuicaoRisco.alto} Alto</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/80" />
+              <div className="h-2.5 w-2.5 rounded-full" style={{ background: 'oklch(0.67 0.17 154 / 0.40)' }} />
               <span className="text-xs text-muted-foreground">{metricas.distribuicaoRisco.medio} Médio</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="h-2.5 w-2.5 rounded-full bg-emerald-500/80" />
+              <div className="h-2.5 w-2.5 rounded-full" style={{ background: 'oklch(0.67 0.17 154)' }} />
               <span className="text-xs text-muted-foreground">{metricas.distribuicaoRisco.baixo} Baixo</span>
             </div>
           </div>
