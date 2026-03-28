@@ -124,9 +124,40 @@ export function BannerFinanceiro({ metricas, quaseAprovados }: BannerFinanceiroP
             </div>
           </div>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-center">
-            <div className="relative h-[140px] w-[140px]">
+        <CardContent>
+          <div className="flex flex-col sm:flex-row gap-4 items-center">
+            {/* Mini-cards à esquerda */}
+            <div className="grid grid-cols-2 gap-2 flex-1 w-full">
+              {[
+                { icon: AlertTriangle, label: 'Risco Crítico', value: metricas.distribuicaoRisco.critico, opacity: '0.15' },
+                { icon: AlertCircle, label: 'Risco Alto', value: metricas.distribuicaoRisco.alto, opacity: '0.25' },
+                { icon: ShieldAlert, label: 'Risco Médio', value: metricas.distribuicaoRisco.medio, opacity: '0.40' },
+                { icon: ShieldCheck, label: 'Sem Risco', value: metricas.distribuicaoRisco.baixo, opacity: '1' },
+              ].map((item) => {
+                const Icon = item.icon
+                const pct = metricas.total > 0 ? ((item.value / metricas.total) * 100).toFixed(1) : '0.0'
+                return (
+                  <div key={item.label} className="flex items-center gap-2.5 rounded-lg border border-border/50 p-2.5">
+                    <div
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md"
+                      style={{ background: `oklch(0.67 0.17 154 / ${item.opacity})` }}
+                    >
+                      <Icon className="h-4 w-4" style={{ color: item.opacity === '1' ? 'oklch(0.67 0.17 154)' : 'oklch(0.67 0.17 154 / 0.7)' }} />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-[11px] text-muted-foreground truncate">{item.label}</p>
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-sm font-bold">{item.value}</span>
+                        <span className="text-[10px] text-muted-foreground">{pct}%</span>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Donut à direita */}
+            <div className="relative h-[140px] w-[140px] shrink-0">
               <ResponsiveContainer width="100%" height="100%">
                 <RechartsPieChart>
                   <Pie
@@ -150,35 +181,6 @@ export function BannerFinanceiro({ metricas, quaseAprovados }: BannerFinanceiroP
                 <span className="text-[10px] text-muted-foreground">em risco</span>
               </div>
             </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-2">
-            {[
-              { icon: AlertTriangle, label: 'Risco Crítico', value: metricas.distribuicaoRisco.critico, opacity: '0.15' },
-              { icon: AlertCircle, label: 'Risco Alto', value: metricas.distribuicaoRisco.alto, opacity: '0.25' },
-              { icon: ShieldAlert, label: 'Risco Médio', value: metricas.distribuicaoRisco.medio, opacity: '0.40' },
-              { icon: ShieldCheck, label: 'Sem Risco', value: metricas.distribuicaoRisco.baixo, opacity: '1' },
-            ].map((item) => {
-              const Icon = item.icon
-              const pct = metricas.total > 0 ? ((item.value / metricas.total) * 100).toFixed(1) : '0.0'
-              return (
-                <div key={item.label} className="flex items-center gap-2.5 rounded-lg border border-border/50 p-2.5">
-                  <div
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md"
-                    style={{ background: `oklch(0.67 0.17 154 / ${item.opacity})` }}
-                  >
-                    <Icon className="h-4 w-4" style={{ color: item.opacity === '1' ? 'oklch(0.67 0.17 154)' : 'oklch(0.67 0.17 154 / 0.7)' }} />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-[11px] text-muted-foreground truncate">{item.label}</p>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-sm font-bold">{item.value}</span>
-                      <span className="text-[10px] text-muted-foreground">{pct}%</span>
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
           </div>
         </CardContent>
       </Card>
