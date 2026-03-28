@@ -4,7 +4,7 @@ import {
   TrendingUp,
   DollarSign,
   Target,
-  BarChart3,
+  UserCheck,
   PieChart as PieChartIcon,
 } from 'lucide-react'
 import {
@@ -192,40 +192,56 @@ export function BannerFinanceiro({ metricas, quaseAprovados }: BannerFinanceiroP
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className="rounded-lg border border-border/30 p-3 space-y-1">
-                <div className="h-7 w-7 rounded-md bg-emerald-500/10 flex items-center justify-center">
-                  <DollarSign className="h-3.5 w-3.5 text-emerald-400" />
+            <div className="grid grid-cols-2 gap-3">
+              <div className="flex items-center gap-3 rounded-lg border border-border p-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary/10">
+                  <UserCheck className="h-5 w-5 text-primary" />
                 </div>
-                <p className="text-lg font-bold mt-2">R$ {Math.round(potencialRecuperacao / 1000)}k</p>
-                <p className="text-[11px] text-muted-foreground leading-tight">/mês em receita salvável</p>
+                <div className="min-w-0">
+                  <p className="text-xs text-muted-foreground truncate">Quase aprovados</p>
+                  <p className="text-lg font-bold text-foreground">{quaseAprovados}</p>
+                </div>
               </div>
 
-              <div className="rounded-lg border border-border/30 p-3 space-y-1">
-                <div className="h-7 w-7 rounded-md bg-blue-500/10 flex items-center justify-center">
-                  <Target className="h-3.5 w-3.5 text-blue-400" />
+              <div className="flex items-center gap-3 rounded-lg border border-border p-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary/10">
+                  <Target className="h-5 w-5 text-primary" />
                 </div>
-                <p className="text-lg font-bold mt-2">{quaseAprovados}</p>
-                <p className="text-[11px] text-muted-foreground leading-tight">alunos resgatáveis</p>
+                <div className="min-w-0">
+                  <p className="text-xs text-muted-foreground truncate">Gap médio p/ aprovação</p>
+                  <p className="text-lg font-bold text-foreground">0.7 pts</p>
+                </div>
               </div>
 
-              <div className="rounded-lg border border-border/30 p-3 space-y-1">
-                <div className="h-7 w-7 rounded-md bg-purple-500/10 flex items-center justify-center">
-                  <BarChart3 className="h-3.5 w-3.5 text-purple-400" />
+              <div className="flex items-center gap-3 rounded-lg border border-border p-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary/10">
+                  <TrendingUp className="h-5 w-5 text-primary" />
                 </div>
-                <p className="text-lg font-bold mt-2">48.5%</p>
-                <p className="text-[11px] text-muted-foreground leading-tight">do risco na turma 3B</p>
+                <div className="min-w-0">
+                  <p className="text-xs text-muted-foreground truncate">Taxa de recuperação</p>
+                  <p className="text-lg font-bold text-foreground">{percentualRecuperavel}%</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 rounded-lg border border-border p-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary/10">
+                  <DollarSign className="h-5 w-5 text-primary" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs text-muted-foreground truncate">Receita recuperável</p>
+                  <p className="text-lg font-bold text-foreground">R$ {Math.round(potencialRecuperacao * 12 / 1000)}k/ano</p>
+                </div>
               </div>
             </div>
 
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs">
                 <span className="text-muted-foreground">Risco recuperável com intervenção</span>
-                <span className="font-medium text-emerald-400">{percentualRecuperavel}%</span>
+                <span className="font-medium">{percentualRecuperavel}%</span>
               </div>
-              <div className="h-2 rounded-full bg-muted/30 overflow-hidden">
+              <div className="h-2 rounded-full bg-muted overflow-hidden">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-emerald-500/60 to-emerald-400/80"
+                  className="h-2 rounded-full bg-primary"
                   style={{ width: `${percentualRecuperavel}%` }}
                 />
               </div>
