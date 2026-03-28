@@ -28,16 +28,16 @@ import { ModalPlanoEstudos } from './ModalPlanoEstudos'
 // ─── Helpers de estilo ──────────────────────────────────────────────────────
 
 const coresRisco: Record<NivelRisco, string> = {
-  'Crítico': 'bg-red-500/10 text-red-500 border-red-500/20',
-  'Alto': 'bg-orange-500/10 text-orange-500 border-orange-500/20',
-  'Médio': 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20',
-  'Baixo': 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
+  'Crítico': 'bg-red-500/10 text-red-400 border-red-500/20',
+  'Alto': 'bg-orange-500/10 text-orange-400 border-orange-500/20',
+  'Médio': 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
+  'Baixo': 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
 }
 
 const coresTendencia: Record<Tendencia, string> = {
-  '↑': 'text-emerald-400',
-  '↓': 'text-red-400',
-  '→': 'text-muted-foreground',
+  '↑': 'text-emerald-400/70',
+  '↓': 'text-red-400/70',
+  '→': 'text-muted-foreground/50',
 }
 
 const ordemRisco: Record<NivelRisco, number> = {

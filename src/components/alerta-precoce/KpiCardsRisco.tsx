@@ -27,7 +27,7 @@ export function KpiCardsRisco({ criticos, altos, quaseAprovados, emMelhoria }: K
           <AlertOctagon className="h-4 w-4 text-red-500" />
         </CardHeader>
         <CardContent>
-          <p className="text-2xl font-bold text-red-500">{criticos}</p>
+          <p className="text-2xl font-bold">{criticos}</p>
           <p className="text-xs text-muted-foreground">Nota B1 abaixo de 4.0</p>
         </CardContent>
       </Card>
@@ -47,7 +47,7 @@ export function KpiCardsRisco({ criticos, altos, quaseAprovados, emMelhoria }: K
           <AlertTriangle className="h-4 w-4 text-orange-500" />
         </CardHeader>
         <CardContent>
-          <p className="text-2xl font-bold text-orange-500">{altos}</p>
+          <p className="text-2xl font-bold">{altos}</p>
           <p className="text-xs text-muted-foreground">Nota B1 entre 4.0 e 4.9</p>
         </CardContent>
       </Card>
@@ -67,7 +67,7 @@ export function KpiCardsRisco({ criticos, altos, quaseAprovados, emMelhoria }: K
           <Target className="h-4 w-4 text-yellow-500" />
         </CardHeader>
         <CardContent>
-          <p className="text-2xl font-bold text-yellow-500">{quaseAprovados}</p>
+          <p className="text-2xl font-bold">{quaseAprovados}</p>
           <p className="text-xs text-muted-foreground">Média entre 5.0 e 5.9</p>
         </CardContent>
       </Card>
@@ -87,7 +87,7 @@ export function KpiCardsRisco({ criticos, altos, quaseAprovados, emMelhoria }: K
           <TrendingUp className="h-4 w-4 text-emerald-500" />
         </CardHeader>
         <CardContent>
-          <p className="text-2xl font-bold text-emerald-500">{emMelhoria}</p>
+          <p className="text-2xl font-bold">{emMelhoria}</p>
           <p className="text-xs text-muted-foreground">Tendência ↑ entre alunos em risco</p>
         </CardContent>
       </Card>

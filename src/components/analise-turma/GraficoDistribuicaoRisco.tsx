@@ -60,13 +60,14 @@ export function GraficoDistribuicaoRisco({ metricasPorTurma }: GraficoDistribuic
             <YAxis tickLine={false} axisLine={false} fontSize={12} />
             <ChartTooltip content={<ChartTooltipContent />} />
             <ChartLegend content={<ChartLegendContent />} />
-            <Bar dataKey="critico" stackId="risco" fill="var(--color-critico)" />
-            <Bar dataKey="alto" stackId="risco" fill="var(--color-alto)" />
-            <Bar dataKey="medio" stackId="risco" fill="var(--color-medio)" />
+            <Bar dataKey="critico" stackId="risco" fill="var(--color-critico)" fillOpacity={0.50} />
+            <Bar dataKey="alto" stackId="risco" fill="var(--color-alto)" fillOpacity={0.45} />
+            <Bar dataKey="medio" stackId="risco" fill="var(--color-medio)" fillOpacity={0.40} />
             <Bar
               dataKey="baixo"
               stackId="risco"
               fill="var(--color-baixo)"
+              fillOpacity={0.30}
               radius={[4, 4, 0, 0]}
             />
           </BarChart>

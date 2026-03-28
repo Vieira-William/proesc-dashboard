@@ -56,11 +56,13 @@ export function GraficoAprovacaoTurma({ metricasPorTurma }: GraficoAprovacaoTurm
             <Bar
               dataKey="aprovados"
               fill="var(--color-aprovados)"
+              fillOpacity={0.35}
               radius={[4, 4, 0, 0]}
             />
             <Bar
               dataKey="reprovados"
               fill="var(--color-reprovados)"
+              fillOpacity={0.50}
               radius={[4, 4, 0, 0]}
             />
           </BarChart>
