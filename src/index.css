@@ -51,77 +51,77 @@
     --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* Light mode — Verde Amazonia (#145A2D) como primário */
+/* Light mode — Spotify-inspired */
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
+    --background: oklch(0.99 0 0);
+    --foreground: oklch(0.35 0.02 165);
     --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
+    --card-foreground: oklch(0.35 0.02 165);
     --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.367 0.105 148.5);     /* Verde Amazonia #145A2D */
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.35 0.02 165);
+    --primary: oklch(0.67 0.17 154);          /* Verde sóbrio spotify */
+    --primary-foreground: oklch(0.99 0.02 175);
+    --secondary: oklch(0.90 0.02 239);
+    --secondary-foreground: oklch(0.35 0.02 165);
+    --muted: oklch(0.90 0.02 241);
+    --muted-foreground: oklch(0.50 0.03 269);
+    --accent: oklch(0.90 0.02 241);
+    --accent-foreground: oklch(0.35 0.02 165);
     --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.367 0.105 148.5);
-    /* Cores Proesc para gráficos */
-    --chart-1: oklch(0.762 0.218 138.0);    /* Verde Amapa #64CD32 */
-    --chart-2: oklch(0.882 0.168 138.0);    /* Verde Vitória-Régia #B4F069 */
-    --chart-3: oklch(0.620 0.140 195.0);    /* Teal complementar */
-    --chart-4: oklch(0.70 0.12 55);           /* Amber/orange suave */
-    --chart-5: oklch(0.60 0.15 25);           /* Red suave */
+    --border: oklch(0.90 0.02 239);
+    --input: oklch(0.90 0.02 239);
+    --ring: oklch(0.67 0.17 154);
+    /* Cores para gráficos */
+    --chart-1: oklch(0.67 0.17 154);         /* Verde spotify */
+    --chart-2: oklch(0.75 0.12 160);         /* Verde claro */
+    --chart-3: oklch(0.60 0.10 220);         /* Azul complementar */
+    --chart-4: oklch(0.70 0.12 55);          /* Amber suave */
+    --chart-5: oklch(0.60 0.15 25);          /* Red suave */
     --radius: 0.625rem;
-    --sidebar: oklch(0.367 0.105 148.5);    /* Sidebar verde escuro no light */
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.762 0.218 138.0);
-    --sidebar-primary-foreground: oklch(0.145 0 0);
-    --sidebar-accent: oklch(0.300 0.090 148.5);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 12%);
-    --sidebar-ring: oklch(0.762 0.218 138.0);
+    --sidebar: oklch(0.25 0.03 165);         /* Sidebar escura no light */
+    --sidebar-foreground: oklch(0.90 0.02 240);
+    --sidebar-primary: oklch(0.67 0.17 154);
+    --sidebar-primary-foreground: oklch(0.99 0.02 175);
+    --sidebar-accent: oklch(0.30 0.03 165);
+    --sidebar-accent-foreground: oklch(0.90 0.02 240);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.67 0.17 154);
 }
 
-/* Dark mode — Verde Amapa (#64CD32) como primário */
+/* Dark mode — Spotify-inspired com verde Proesc */
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.762 0.218 138.0);     /* Verde Amapa #64CD32 */
-    --primary-foreground: oklch(0.145 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
+    --background: oklch(0.15 0.02 269);
+    --foreground: oklch(0.90 0.02 240);
+    --card: oklch(0.20 0.02 269);
+    --card-foreground: oklch(0.90 0.02 240);
+    --popover: oklch(0.20 0.02 269);
+    --popover-foreground: oklch(0.90 0.02 240);
+    --primary: oklch(0.67 0.17 154);          /* Verde sóbrio spotify */
+    --primary-foreground: oklch(0.99 0.02 175);
+    --secondary: oklch(0.25 0.02 269);
+    --secondary-foreground: oklch(0.90 0.02 240);
+    --muted: oklch(0.25 0.02 269);
+    --muted-foreground: oklch(0.65 0.03 269);
+    --accent: oklch(0.25 0.02 269);
+    --accent-foreground: oklch(0.90 0.02 240);
     --destructive: oklch(0.704 0.191 22.216);
     --border: oklch(1 0 0 / 10%);
     --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.762 0.218 138.0);
-    /* Cores Proesc para gráficos */
-    --chart-1: oklch(0.762 0.218 138.0);    /* Verde Amapa #64CD32 */
-    --chart-2: oklch(0.882 0.168 138.0);    /* Verde Vitória-Régia #B4F069 */
-    --chart-3: oklch(0.620 0.140 195.0);    /* Teal complementar */
-    --chart-4: oklch(0.70 0.12 55);           /* Amber/orange suave */
-    --chart-5: oklch(0.60 0.15 25);           /* Red suave */
-    --sidebar: oklch(0.185 0 0);            /* Sidebar ligeiramente diferente do bg */
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.762 0.218 138.0);
-    --sidebar-primary-foreground: oklch(0.145 0 0);
-    --sidebar-accent: oklch(0.250 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.762 0.218 138.0);
+    --ring: oklch(0.67 0.17 154);
+    /* Cores para gráficos — harmônicas com paleta spotify */
+    --chart-1: oklch(0.67 0.17 154);         /* Verde spotify */
+    --chart-2: oklch(0.75 0.12 160);         /* Verde claro */
+    --chart-3: oklch(0.60 0.10 220);         /* Azul complementar */
+    --chart-4: oklch(0.70 0.12 55);          /* Amber suave */
+    --chart-5: oklch(0.60 0.15 25);          /* Red suave */
+    --sidebar: oklch(0.12 0.02 269);
+    --sidebar-foreground: oklch(0.90 0.02 240);
+    --sidebar-primary: oklch(0.67 0.17 154);
+    --sidebar-primary-foreground: oklch(0.99 0.02 175);
+    --sidebar-accent: oklch(0.22 0.02 269);
+    --sidebar-accent-foreground: oklch(0.90 0.02 240);
+    --sidebar-border: oklch(1 0 0 / 8%);
+    --sidebar-ring: oklch(0.67 0.17 154);
 }
 
 @layer base {
