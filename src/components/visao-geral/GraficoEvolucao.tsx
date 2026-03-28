@@ -5,7 +5,7 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from '@/components/ui/chart'
-import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card'
+import { Card, CardHeader, CardContent, CardTitle, CardDescription } from '@/components/ui/card'
 import type { EvolucaoBimestral } from '@/lib/calculos'
 
 interface GraficoEvolucaoProps {
@@ -27,9 +27,12 @@ export function GraficoEvolucao({ evolucao }: GraficoEvolucaoProps) {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="text-base font-semibold">
+        <CardTitle className="text-base font-medium">
           Evolução Bimestral
         </CardTitle>
+        <CardDescription className="text-xs">
+          Média geral por bimestre — todas as turmas
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
@@ -54,8 +57,8 @@ export function GraficoEvolucao({ evolucao }: GraficoEvolucaoProps) {
               y={6}
               stroke="hsl(var(--muted-foreground))"
               strokeDasharray="6 4"
-              strokeOpacity={0.4}
-              label={{ value: "Mín. aprovação", position: "insideTopRight", fill: "hsl(var(--muted-foreground))", fontSize: 10 }}
+              strokeOpacity={0.3}
+              label={{ value: "Mín. aprovação", position: "insideTopRight", fill: "hsl(var(--muted-foreground))", fontSize: 10, opacity: 0.5 }}
             />
             <ChartTooltip content={<ChartTooltipContent />} />
             <Line
@@ -63,7 +66,7 @@ export function GraficoEvolucao({ evolucao }: GraficoEvolucaoProps) {
               dataKey="media"
               stroke="var(--chart-1)"
               strokeWidth={2}
-              dot={{ r: 4 }}
+              dot={{ r: 3, strokeWidth: 0, fill: "var(--chart-1)" }}
               activeDot={{ r: 5 }}
             />
           </LineChart>

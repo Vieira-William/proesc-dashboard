@@ -1,5 +1,5 @@
 import { DollarSign, TrendingDown, ShieldCheck } from 'lucide-react'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import type { MetricasGlobais } from '@/lib/calculos'
 
 const TICKET_MEDIO_MENSAL = 1500
@@ -15,12 +15,15 @@ export function BannerFinanceiro({ metricas, quaseAprovados }: BannerFinanceiroP
   const potencialRecuperacao = quaseAprovados * TICKET_MEDIO_MENSAL
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
+    <Card className="border-border/50">
+      <CardHeader className="pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
           <DollarSign className="h-4 w-4" />
           Impacto Financeiro Estimado
         </CardTitle>
+        <CardDescription className="text-xs">
+          Projeção baseada em ticket médio e taxa de evasão pós-reprovação
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">

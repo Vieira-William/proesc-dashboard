@@ -18,21 +18,21 @@ import type { AlunoProcessado, StatusAluno, NivelRisco, Tendencia } from '@/lib/
 // ─── Helpers de estilo ──────────────────────────────────────────────────────
 
 const coresStatus: Record<StatusAluno, string> = {
-  Aprovado: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
-  Reprovado: 'bg-red-500/10 text-red-500 border-red-500/20',
+  Aprovado: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+  Reprovado: 'bg-red-500/10 text-red-400 border-red-500/20',
 }
 
 const coresRisco: Record<NivelRisco, string> = {
-  'Crítico': 'bg-red-500/10 text-red-500 border-red-500/20',
-  'Alto': 'bg-orange-500/10 text-orange-500 border-orange-500/20',
-  'Médio': 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20',
-  'Baixo': 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
+  'Crítico': 'bg-red-500/10 text-red-400 border-red-500/20',
+  'Alto': 'bg-orange-500/10 text-orange-400 border-orange-500/20',
+  'Médio': 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
+  'Baixo': 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
 }
 
 const coresTendencia: Record<Tendencia, string> = {
-  '↑': 'text-emerald-400',
-  '↓': 'text-red-400',
-  '→': 'text-muted-foreground',
+  '↑': 'text-emerald-400/70',
+  '↓': 'text-red-400/70',
+  '→': 'text-muted-foreground/50',
 }
 
 type FiltroStatus = 'todos' | 'Aprovado' | 'Reprovado'
@@ -135,13 +135,13 @@ export function TabelaAlunos({ alunos, onAlunoClick }: TabelaAlunosProps) {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Nome</TableHead>
-                <TableHead className="w-16 text-center">Turma</TableHead>
-                <TableHead className="w-24">
+                <TableHead className="text-xs uppercase tracking-wider">Nome</TableHead>
+                <TableHead className="w-16 text-center text-xs uppercase tracking-wider">Turma</TableHead>
+                <TableHead className="w-24 text-xs uppercase tracking-wider">
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="-ml-3 h-8 font-medium"
+                    className="-ml-3 h-8 text-xs uppercase tracking-wider font-medium"
                     onClick={() =>
                       setOrdenacao((o) => (o === 'desc' ? 'asc' : 'desc'))
                     }
@@ -150,9 +150,9 @@ export function TabelaAlunos({ alunos, onAlunoClick }: TabelaAlunosProps) {
                     <ArrowUpDown className="ml-1 h-3 w-3" />
                   </Button>
                 </TableHead>
-                <TableHead className="w-24">Status</TableHead>
-                <TableHead className="w-24">Risco</TableHead>
-                <TableHead className="w-20 text-center">Tend.</TableHead>
+                <TableHead className="w-24 text-xs uppercase tracking-wider">Status</TableHead>
+                <TableHead className="w-24 text-xs uppercase tracking-wider">Risco</TableHead>
+                <TableHead className="w-20 text-center text-xs uppercase tracking-wider">Tend.</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -166,7 +166,7 @@ export function TabelaAlunos({ alunos, onAlunoClick }: TabelaAlunosProps) {
                 alunosPagina.map((a) => (
                   <TableRow
                     key={a.id}
-                    className={onAlunoClick ? 'cursor-pointer' : ''}
+                    className={`hover:bg-muted/30 transition-colors ${onAlunoClick ? 'cursor-pointer' : ''}`}
                     onClick={() => onAlunoClick?.(a)}
                   >
                     <TableCell className="font-medium">{a.nome}</TableCell>
@@ -200,7 +200,7 @@ export function TabelaAlunos({ alunos, onAlunoClick }: TabelaAlunosProps) {
 
         {/* Footer — paginação */}
         <div className="flex items-center justify-between px-6 pt-4">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs text-muted-foreground">
             Mostrando {alunosProcessados.length === 0 ? 0 : inicio + 1}–
             {Math.min(inicio + ITENS_POR_PAGINA, alunosProcessados.length)} de{' '}
             {alunosProcessados.length} alunos

@@ -50,8 +50,8 @@ export function KpiCards({ metricas }: KpiCardsProps) {
           <div className="flex items-baseline gap-2">
             <p className="text-2xl font-bold">{metricas.mediaGeral}</p>
             <span
-              className={`flex items-center text-xs font-medium ${
-                tendenciaPositiva ? 'text-emerald-500' : 'text-red-500'
+              className={`flex items-center text-xs font-normal ${
+                tendenciaPositiva ? 'text-emerald-400/70' : 'text-red-400/70'
               }`}
             >
               {tendenciaPositiva ? (
