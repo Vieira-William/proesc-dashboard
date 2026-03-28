@@ -15,8 +15,8 @@ interface GraficoAprovacaoTurmaProps {
 }
 
 const chartConfig: ChartConfig = {
-  aprovados: { label: 'Aprovados', color: 'rgba(52, 211, 153, 0.55)' },
-  reprovados: { label: 'Reprovados', color: 'rgba(239, 68, 68, 0.80)' },
+  aprovados: { label: 'Aprovados', color: 'var(--chart-1)' },
+  reprovados: { label: 'Reprovados', color: 'var(--chart-5)' },
 }
 
 const turmas: TurmaCodigo[] = ['3A', '3B', '3C']
@@ -38,7 +38,7 @@ export function GraficoAprovacaoTurma({ metricasPorTurma }: GraficoAprovacaoTurm
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
           <BarChart data={dados} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
-            <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
+            <CartesianGrid vertical={false} strokeDasharray="3 3" strokeOpacity={0.08} />
             <XAxis dataKey="turma" tickLine={false} axisLine={false} fontSize={12} />
             <YAxis tickLine={false} axisLine={false} fontSize={12} />
             <ChartTooltip content={<ChartTooltipContent />} />

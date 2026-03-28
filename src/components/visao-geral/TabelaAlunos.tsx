@@ -30,8 +30,8 @@ const coresRisco: Record<NivelRisco, string> = {
 }
 
 const coresTendencia: Record<Tendencia, string> = {
-  '↑': 'text-emerald-500',
-  '↓': 'text-red-500',
+  '↑': 'text-emerald-400',
+  '↓': 'text-red-400',
   '→': 'text-muted-foreground',
 }
 
@@ -187,7 +187,7 @@ export function TabelaAlunos({ alunos, onAlunoClick }: TabelaAlunosProps) {
                       </Badge>
                     </TableCell>
                     <TableCell className="text-center">
-                      <span className={`text-lg font-bold ${coresTendencia[a.tendencia]}`}>
+                      <span className={`text-sm font-medium ${coresTendencia[a.tendencia]}`}>
                         {a.tendencia}
                       </span>
                     </TableCell>

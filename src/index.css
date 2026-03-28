@@ -75,8 +75,8 @@
     --chart-1: oklch(0.762 0.218 138.0);    /* Verde Amapa #64CD32 */
     --chart-2: oklch(0.882 0.168 138.0);    /* Verde Vitória-Régia #B4F069 */
     --chart-3: oklch(0.620 0.140 195.0);    /* Teal complementar */
-    --chart-4: oklch(0.556 0 0);            /* Muted (média geral) */
-    --chart-5: oklch(0.371 0 0);
+    --chart-4: oklch(0.70 0.12 55);           /* Amber/orange suave */
+    --chart-5: oklch(0.60 0.15 25);           /* Red suave */
     --radius: 0.625rem;
     --sidebar: oklch(0.367 0.105 148.5);    /* Sidebar verde escuro no light */
     --sidebar-foreground: oklch(0.985 0 0);
@@ -112,8 +112,8 @@
     --chart-1: oklch(0.762 0.218 138.0);    /* Verde Amapa #64CD32 */
     --chart-2: oklch(0.882 0.168 138.0);    /* Verde Vitória-Régia #B4F069 */
     --chart-3: oklch(0.620 0.140 195.0);    /* Teal complementar */
-    --chart-4: oklch(0.556 0 0);            /* Muted (média geral) */
-    --chart-5: oklch(0.269 0 0);
+    --chart-4: oklch(0.70 0.12 55);           /* Amber/orange suave */
+    --chart-5: oklch(0.60 0.15 25);           /* Red suave */
     --sidebar: oklch(0.185 0 0);            /* Sidebar ligeiramente diferente do bg */
     --sidebar-foreground: oklch(0.985 0 0);
     --sidebar-primary: oklch(0.762 0.218 138.0);

@@ -78,15 +78,7 @@ export function KpiCards({ metricas }: KpiCardsProps) {
           <CheckCircle className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <p
-            className={`text-2xl font-bold ${
-              metricas.percentualAprovacao >= 70
-                ? 'text-emerald-500'
-                : metricas.percentualAprovacao >= 50
-                  ? 'text-yellow-500'
-                  : 'text-red-500'
-            }`}
-          >
+          <p className="text-2xl font-bold">
             {metricas.percentualAprovacao}%
           </p>
           <p className="text-xs text-muted-foreground">
@@ -104,7 +96,7 @@ export function KpiCards({ metricas }: KpiCardsProps) {
           <AlertTriangle className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <p className="text-2xl font-bold text-red-500">{riscoTotal}</p>
+          <p className="text-2xl font-bold">{riscoTotal}</p>
           <p className="text-xs text-muted-foreground">
             {metricas.distribuicaoRisco.critico} críticos · {metricas.distribuicaoRisco.alto} alto · {metricas.distribuicaoRisco.medio} médio
           </p>

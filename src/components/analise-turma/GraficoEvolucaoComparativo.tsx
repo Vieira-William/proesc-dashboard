@@ -42,7 +42,7 @@ export function GraficoEvolucaoComparativo({ metricasPorTurma }: GraficoEvolucao
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <LineChart data={dados} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
-            <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
+            <CartesianGrid vertical={false} strokeDasharray="3 3" strokeOpacity={0.08} />
             <XAxis dataKey="bimestre" tickLine={false} axisLine={false} fontSize={12} />
             <YAxis
               domain={[5.5, 'auto']}

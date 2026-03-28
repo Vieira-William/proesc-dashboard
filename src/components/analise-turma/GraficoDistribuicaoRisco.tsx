@@ -15,10 +15,10 @@ interface GraficoDistribuicaoRiscoProps {
 }
 
 const chartConfig: ChartConfig = {
-  critico: { label: 'Crítico', color: 'rgba(239, 68, 68, 0.85)' },
-  alto: { label: 'Alto', color: 'rgba(249, 115, 22, 0.80)' },
-  medio: { label: 'Médio', color: 'rgba(234, 179, 8, 0.70)' },
-  baixo: { label: 'Baixo', color: 'rgba(52, 211, 153, 0.50)' },
+  critico: { label: 'Crítico', color: 'var(--chart-5)' },
+  alto: { label: 'Alto', color: 'var(--chart-4)' },
+  medio: { label: 'Médio', color: 'var(--chart-2)' },
+  baixo: { label: 'Baixo', color: 'var(--chart-1)' },
 }
 
 const turmas: TurmaCodigo[] = ['3A', '3B', '3C']
@@ -45,7 +45,7 @@ export function GraficoDistribuicaoRisco({ metricasPorTurma }: GraficoDistribuic
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
           <BarChart data={dados} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
-            <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
+            <CartesianGrid vertical={false} strokeDasharray="3 3" strokeOpacity={0.08} />
             <XAxis dataKey="turma" tickLine={false} axisLine={false} fontSize={12} />
             <YAxis tickLine={false} axisLine={false} fontSize={12} />
             <ChartTooltip content={<ChartTooltipContent />} />

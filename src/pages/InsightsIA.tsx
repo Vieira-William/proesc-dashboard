@@ -190,8 +190,8 @@ export function InsightsIA() {
             >
               {msg.role === 'assistant' && (
                 <div className="flex items-center gap-2 mb-0.5">
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-primary/10">
-                    <Sparkles className="h-3 w-3 text-primary" />
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 shrink-0">
+                    <Sparkles className="h-4 w-4 text-primary" />
                   </div>
                   <span className="text-[10px] text-muted-foreground font-medium">Proesc IA</span>
                 </div>
@@ -199,8 +199,8 @@ export function InsightsIA() {
               <div
                 className={`max-w-[90%] sm:max-w-[80%] rounded-lg px-4 py-3 ${
                   msg.role === 'user'
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-muted'
+                    ? 'bg-primary/10 border border-primary/20'
+                    : 'bg-muted/50 border border-border/50'
                 }`}
               >
                 {msg.content === '' && gerando ? (
@@ -229,12 +229,8 @@ export function InsightsIA() {
               {sugestoes.map((s) => (
                 <Badge
                   key={s.texto}
-                  variant={s.destaque ? 'default' : 'outline'}
-                  className={`cursor-pointer transition-colors text-xs py-1.5 px-3 ${
-                    s.destaque
-                      ? 'hover:bg-primary/90'
-                      : 'hover:bg-accent'
-                  }`}
+                  variant="outline"
+                  className="cursor-pointer transition-colors text-xs py-1.5 px-3 rounded-full text-muted-foreground hover:text-foreground hover:border-primary/30"
                   onClick={() => handleChipClick(s.texto)}
                 >
                   {s.destaque && <Sparkles className="mr-1 h-3 w-3" />}
@@ -247,14 +243,14 @@ export function InsightsIA() {
       </ScrollArea>
 
       {/* Input fixo */}
-      <div className="flex gap-2 pt-4 shrink-0">
+      <div className="flex gap-2 pt-4 shrink-0 border-t border-border/50 mt-0 -mx-4 px-4 lg:-mx-6 lg:px-6 pb-0 bg-background/80 backdrop-blur-sm">
         <Input
           placeholder="Faça uma pergunta sobre os dados..."
           value={inputTexto}
           onChange={(e) => setInputTexto(e.target.value)}
           onKeyDown={handleKeyDown}
           disabled={gerando}
-          className="flex-1"
+          className="flex-1 bg-muted/30 border-border/50"
         />
         <Button
           size="icon"
