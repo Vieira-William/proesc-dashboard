@@ -1,4 +1,4 @@
-import { CartesianGrid, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts'
+import { Area, AreaChart, CartesianGrid, ReferenceLine, XAxis, YAxis } from 'recharts'
 import {
   ChartContainer,
   ChartTooltip,
@@ -36,7 +36,13 @@ export function GraficoEvolucao({ evolucao }: GraficoEvolucaoProps) {
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
-          <LineChart data={dados} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
+          <AreaChart data={dados} margin={{ top: 20, right: 30, left: 20, bottom: 10 }}>
+            <defs>
+              <linearGradient id="gradientMedia" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="var(--primary)" stopOpacity={0.30} />
+                <stop offset="95%" stopColor="var(--primary)" stopOpacity={0.02} />
+              </linearGradient>
+            </defs>
             <CartesianGrid vertical={false} strokeDasharray="3 3" strokeOpacity={0.08} />
             <XAxis
               dataKey="bimestre"
@@ -45,31 +51,34 @@ export function GraficoEvolucao({ evolucao }: GraficoEvolucaoProps) {
               fontSize={12}
             />
             <YAxis
-              type="number"
               domain={[5.5, 7.5]}
+              ticks={[5.5, 6.0, 6.5, 7.0, 7.5]}
               tickFormatter={(v: number) => v.toFixed(1)}
-              tickLine={false}
               axisLine={false}
-              fontSize={12}
-              width={40}
+              tickLine={false}
+              tick={{ fontSize: 12, fill: 'var(--muted-foreground)' }}
+              width={45}
+              dx={-5}
             />
             <ReferenceLine
               y={6}
-              stroke="hsl(var(--muted-foreground))"
-              strokeDasharray="6 4"
-              strokeOpacity={0.3}
-              label={{ value: "Mín. aprovação", position: "insideTopRight", fill: "hsl(var(--muted-foreground))", fontSize: 10, opacity: 0.5 }}
+              stroke="var(--destructive)"
+              strokeDasharray="8 4"
+              strokeOpacity={0.5}
+              strokeWidth={1.5}
+              label={{ value: "Mín. aprovação (6.0)", position: "insideBottomRight", offset: 10, fill: "var(--destructive)", fontSize: 11, fontWeight: 500, opacity: 0.7 }}
             />
             <ChartTooltip content={<ChartTooltipContent />} />
-            <Line
+            <Area
               type="monotone"
               dataKey="media"
-              stroke="var(--chart-1)"
-              strokeWidth={2}
-              dot={{ r: 3, strokeWidth: 0, fill: "var(--chart-1)" }}
-              activeDot={{ r: 5 }}
+              stroke="var(--primary)"
+              strokeWidth={2.5}
+              fill="url(#gradientMedia)"
+              dot={{ r: 5, fill: 'var(--primary)', stroke: 'var(--background)', strokeWidth: 2.5 }}
+              activeDot={{ r: 7, fill: 'var(--primary)', stroke: 'var(--background)', strokeWidth: 3 }}
             />
-          </LineChart>
+          </AreaChart>
         </ChartContainer>
       </CardContent>
     </Card>
