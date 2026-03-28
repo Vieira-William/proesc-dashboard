@@ -1,4 +1,4 @@
-import { GraduationCap, CheckCircle, AlertTriangle } from 'lucide-react'
+import { GraduationCap, CheckCircle, AlertTriangle, Info } from 'lucide-react'
 import { Card, CardHeader, CardContent } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
@@ -21,14 +21,20 @@ export function ComparativoKpis({ metricasPorTurma }: ComparativoKpisProps) {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      {/* Média por Turma */}
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Card className="cursor-help">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <span className="text-sm font-medium text-muted-foreground">Média por Turma</span>
-              <GraduationCap className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className="text-sm font-medium text-muted-foreground flex items-center gap-1 cursor-help">
+                Média por Turma <Info className="h-3 w-3 text-muted-foreground/50" />
+              </span>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="max-w-[280px] text-xs">
+              <p>Média aritmética dos alunos de cada turma. Quanto maior, melhor o desempenho geral.</p>
+            </TooltipContent>
+          </Tooltip>
+          <GraduationCap className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
         <CardContent className="space-y-2">
           {turmas.map((t) => {
             const m = metricasPorTurma[t]
@@ -43,21 +49,20 @@ export function ComparativoKpis({ metricasPorTurma }: ComparativoKpisProps) {
             )
           })}
         </CardContent>
-          </Card>
-        </TooltipTrigger>
-        <TooltipContent side="bottom" className="max-w-[280px] text-xs">
-          <p>Média aritmética dos alunos de cada turma. Quanto maior, melhor o desempenho geral da turma.</p>
-        </TooltipContent>
-      </Tooltip>
+      </Card>
 
-      {/* Aprovação por Turma */}
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Card className="cursor-help">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <span className="text-sm font-medium text-muted-foreground">
-            Aprovação por Turma
-          </span>
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className="text-sm font-medium text-muted-foreground flex items-center gap-1 cursor-help">
+                Aprovação por Turma <Info className="h-3 w-3 text-muted-foreground/50" />
+              </span>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="max-w-[280px] text-xs">
+              <p>Percentual de alunos aprovados (média ≥ 6.0) em cada turma.</p>
+            </TooltipContent>
+          </Tooltip>
           <CheckCircle className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent className="space-y-3">
@@ -74,21 +79,22 @@ export function ComparativoKpis({ metricasPorTurma }: ComparativoKpisProps) {
             )
           })}
         </CardContent>
-          </Card>
-        </TooltipTrigger>
-        <TooltipContent side="bottom" className="max-w-[280px] text-xs">
-          <p>Percentual de alunos aprovados (média ≥ 6.0) em cada turma. A barra verde mostra visualmente a proporção.</p>
-        </TooltipContent>
-      </Tooltip>
+      </Card>
 
-      {/* Risco por Turma */}
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Card className="cursor-help">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <span className="text-sm font-medium text-muted-foreground">Risco por Turma</span>
-              <AlertTriangle className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className="text-sm font-medium text-muted-foreground flex items-center gap-1 cursor-help">
+                Risco por Turma <Info className="h-3 w-3 text-muted-foreground/50" />
+              </span>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="max-w-[280px] text-xs">
+              <p>Quantidade de alunos em risco por turma. C = Crítico (B1&lt;4), A = Alto (B1 4-4.9).</p>
+            </TooltipContent>
+          </Tooltip>
+          <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
         <CardContent className="space-y-2">
           {turmas.map((t) => {
             const r = metricasPorTurma[t].distribuicaoRisco
@@ -108,12 +114,7 @@ export function ComparativoKpis({ metricasPorTurma }: ComparativoKpisProps) {
             )
           })}
         </CardContent>
-          </Card>
-        </TooltipTrigger>
-        <TooltipContent side="bottom" className="max-w-[280px] text-xs">
-          <p>Quantidade de alunos em risco por turma. C = Crítico (B1&lt;4), A = Alto (B1 4-4.9). Turmas sem risco não precisam de intervenção imediata.</p>
-        </TooltipContent>
-      </Tooltip>
+      </Card>
     </div>
   )
 }
