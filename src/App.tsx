@@ -6,6 +6,7 @@ import { VisaoGeral } from './pages/VisaoGeral'
 import { AnaliseTurma } from './pages/AnaliseTurma'
 import { AlertaPrecoce } from './pages/AlertaPrecoce'
 import { InsightsIA } from './pages/InsightsIA'
+import { ThemeToggle } from './components/layout/ThemeToggle'
 
 // ─── Metadados de cada página ─────────────────────────────────────────────────
 
@@ -37,7 +38,7 @@ function App() {
 
   return (
     <AppLayout paginaAtiva={paginaAtiva} onNavegar={setPaginaAtiva}>
-      <PageHeader titulo={titulo} subtitulo={subtitulo} />
+      <PageHeader titulo={titulo} subtitulo={subtitulo} acoes={<ThemeToggle />} />
       <main className="flex flex-1 flex-col gap-6 p-4 lg:p-6">
         {paginaAtiva === 'visao-geral' && <VisaoGeral />}
         {paginaAtiva === 'analise-turma' && <AnaliseTurma />}

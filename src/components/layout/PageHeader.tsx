@@ -13,18 +13,16 @@ interface PageHeaderProps {
 
 export function PageHeader({ titulo, subtitulo, acoes }: PageHeaderProps) {
   return (
-    <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4 lg:px-6">
-      {/* Trigger do sidebar (visível em todos os tamanhos) */}
+    <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-3 border-b border-border/50 bg-background/95 backdrop-blur-sm px-4 lg:px-6">
       <SidebarTrigger className="-ml-1" />
-      <Separator orientation="vertical" className="h-4" />
+      <Separator orientation="vertical" className="h-5" />
 
-      {/* Título e subtítulo */}
       <div className="flex min-w-0 flex-1 flex-col justify-center">
-        <h1 className="text-base font-semibold leading-none tracking-tight truncate">
+        <h1 className="text-sm font-semibold leading-none tracking-tight truncate">
           {titulo}
         </h1>
         {subtitulo && (
-          <p className="text-xs text-muted-foreground mt-0.5 truncate">{subtitulo}</p>
+          <p className="text-xs text-muted-foreground mt-0.5 truncate hidden sm:block">{subtitulo}</p>
         )}
       </div>
 
