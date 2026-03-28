@@ -15,7 +15,7 @@ interface AppLayoutProps {
 
 export function AppLayout({ paginaAtiva, onNavegar, children }: AppLayoutProps) {
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={300}>
       <SidebarProvider>
         <AppSidebar paginaAtiva={paginaAtiva} onNavegar={onNavegar} />
         <SidebarInset>{children}</SidebarInset>

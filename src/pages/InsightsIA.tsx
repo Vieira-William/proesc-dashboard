@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { useAlunos } from '@/hooks/useAlunos'
 import { gerarInsights, chatComIA, type MensagemChat } from '@/lib/groqClient'
 import { montarPrompt, montarContextoChat } from '@/lib/promptInsights'
@@ -157,8 +158,22 @@ export function InsightsIA() {
       {/* Header */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between pb-4 shrink-0">
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="text-xs">Llama 3.3 70B</Badge>
-          <Badge variant="outline" className="text-xs text-muted-foreground">via Groq</Badge>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Badge variant="outline" className="text-xs cursor-help">Llama 3.3 70B</Badge>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="max-w-[280px] text-xs">
+              <p>Modelo de IA utilizado. Llama 3.3 70B é um modelo de linguagem de grande porte da Meta, otimizado para análise e raciocínio.</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Badge variant="outline" className="text-xs text-muted-foreground cursor-help">via Groq</Badge>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="max-w-[280px] text-xs">
+              <p>Infraestrutura de processamento de IA. Groq oferece inferência ultrarrápida, permitindo respostas em segundos.</p>
+            </TooltipContent>
+          </Tooltip>
         </div>
         {temMensagens && (
           <div className="flex gap-2">

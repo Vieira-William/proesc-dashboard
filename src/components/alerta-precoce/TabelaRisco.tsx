@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react'
-import { Search, ChevronLeft, ChevronRight, Mail, ClipboardList } from 'lucide-react'
+import { Search, ChevronLeft, ChevronRight, Mail, ClipboardList, Info } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -130,7 +130,16 @@ export function TabelaRisco({ alunos }: TabelaRiscoProps) {
                 <TableHead className="w-16 text-center">Turma</TableHead>
                 <TableHead className="w-20">Média</TableHead>
                 <TableHead className="w-24">Risco</TableHead>
-                <TableHead className="w-16 text-center">Score</TableHead>
+                <TableHead className="w-16 text-center">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className="cursor-help flex items-center justify-center gap-1">Score <Info className="h-3 w-3 text-muted-foreground/50" /></span>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom" className="max-w-[280px] text-xs">
+                      <p>Score de Engajamento (0-100): Desempenho (40%) · Consistência (20%) · Evolução (25%) · Patamar mínimo (15%). Quanto menor, mais urgente a intervenção.</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TableHead>
                 <TableHead className="w-20 text-center">Tend.</TableHead>
                 <TableHead className="w-24">Variância</TableHead>
                 <TableHead className="w-32">Notas (B1→B4)</TableHead>

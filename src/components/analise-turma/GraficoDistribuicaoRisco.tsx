@@ -8,6 +8,8 @@ import {
   type ChartConfig,
 } from '@/components/ui/chart'
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { Info } from 'lucide-react'
 import type { TurmaCodigo, MetricasTurma } from '@/lib/calculos'
 
 interface GraficoDistribuicaoRiscoProps {
@@ -38,9 +40,17 @@ export function GraficoDistribuicaoRisco({ metricasPorTurma }: GraficoDistribuic
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="text-base font-semibold">
-          Distribuição de Risco
-        </CardTitle>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <CardTitle className="text-base font-medium flex items-center gap-1.5 cursor-help">
+              Distribuição de Risco
+              <Info className="h-3.5 w-3.5 text-muted-foreground/50" />
+            </CardTitle>
+          </TooltipTrigger>
+          <TooltipContent side="bottom" className="max-w-[300px] text-xs">
+            <p>Distribuição dos níveis de risco por turma. Quanto mais vermelho/laranja, mais alunos precisam de atenção. A turma 3C concentra todos os alunos de risco crítico.</p>
+          </TooltipContent>
+        </Tooltip>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[250px] w-full">

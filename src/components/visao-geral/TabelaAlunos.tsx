@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react'
-import { Search, ArrowUpDown, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Search, ArrowUpDown, ChevronLeft, ChevronRight, Info } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -13,6 +13,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import type { AlunoProcessado, StatusAluno, NivelRisco, Tendencia } from '@/lib/calculos'
 
 // ─── Helpers de estilo ──────────────────────────────────────────────────────
@@ -150,9 +151,36 @@ export function TabelaAlunos({ alunos, onAlunoClick }: TabelaAlunosProps) {
                     <ArrowUpDown className="ml-1 h-3 w-3" />
                   </Button>
                 </TableHead>
-                <TableHead className="w-24 text-xs uppercase tracking-wider">Status</TableHead>
-                <TableHead className="w-24 text-xs uppercase tracking-wider">Risco</TableHead>
-                <TableHead className="w-20 text-center text-xs uppercase tracking-wider">Tend.</TableHead>
+                <TableHead className="w-24 text-xs uppercase tracking-wider">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className="cursor-help flex items-center gap-1">Status <Info className="h-3 w-3 text-muted-foreground/50" /></span>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom" className="max-w-[250px] text-xs">
+                      <p>Aprovado: média ≥ 6.0 · Reprovado: média &lt; 6.0</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TableHead>
+                <TableHead className="w-24 text-xs uppercase tracking-wider">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className="cursor-help flex items-center gap-1">Risco <Info className="h-3 w-3 text-muted-foreground/50" /></span>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom" className="max-w-[250px] text-xs">
+                      <p>Nível de risco baseado na nota do 1º bimestre (B1). Crítico: B1 &lt; 4 · Alto: B1 4-4.9 · Médio: B1 5-5.9 · Baixo: B1 ≥ 6</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TableHead>
+                <TableHead className="w-20 text-center text-xs uppercase tracking-wider">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className="cursor-help flex items-center justify-center gap-1">Tend. <Info className="h-3 w-3 text-muted-foreground/50" /></span>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom" className="max-w-[250px] text-xs">
+                      <p>Tendência de evolução: compara nota do B4 com B1. ↑ Subiu · → Estável · ↓ Desceu</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

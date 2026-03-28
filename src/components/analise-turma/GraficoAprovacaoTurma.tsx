@@ -8,6 +8,8 @@ import {
   type ChartConfig,
 } from '@/components/ui/chart'
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { Info } from 'lucide-react'
 import type { TurmaCodigo, MetricasTurma } from '@/lib/calculos'
 
 interface GraficoAprovacaoTurmaProps {
@@ -31,9 +33,17 @@ export function GraficoAprovacaoTurma({ metricasPorTurma }: GraficoAprovacaoTurm
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="text-base font-semibold">
-          Aprovados vs Reprovados
-        </CardTitle>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <CardTitle className="text-base font-medium flex items-center gap-1.5 cursor-help">
+              Aprovados vs Reprovados
+              <Info className="h-3.5 w-3.5 text-muted-foreground/50" />
+            </CardTitle>
+          </TooltipTrigger>
+          <TooltipContent side="bottom" className="max-w-[300px] text-xs">
+            <p>Comparativo visual de aprovados e reprovados por turma. A turma 3B tem a maior proporção de reprovados (quase 50%).</p>
+          </TooltipContent>
+        </Tooltip>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[250px] w-full">
