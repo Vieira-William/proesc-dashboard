@@ -58,17 +58,12 @@ export function AppSidebar({ paginaAtiva, onNavegar }: AppSidebarProps) {
     <Sidebar collapsible="icon">
       {/* Logo */}
       <SidebarHeader className="p-4 pb-2">
-        {/* Logo expandida (dark mode — negativa) */}
+        {/* Logo expandida — sempre negativa (sidebar é escura em ambos os modos) */}
         <div className="group-data-[collapsible=icon]:hidden">
           <img
             src="/logos/Proesc_Marca-Preferencial-RGB-Horizontal-Negativa1.png"
             alt="Proesc"
-            className="h-7 w-auto object-contain dark:block hidden"
-          />
-          <img
-            src="/logos/Proesc_Marca-Preferencial-RGB-Horizontal-Positiva1.png"
-            alt="Proesc"
-            className="h-7 w-auto object-contain dark:hidden block"
+            className="h-7 w-auto object-contain"
           />
         </div>
         {/* Símbolo colapsado */}
