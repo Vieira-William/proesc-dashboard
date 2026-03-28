@@ -12,8 +12,8 @@ export function PainelQuaseAprovados({ quaseAprovados }: PainelQuaseAprovadosPro
 
   return (
     <Alert className="border-yellow-500/30 bg-yellow-500/5">
-      <Target className="h-4 w-4 text-yellow-500" />
-      <AlertTitle className="text-yellow-500 font-semibold">
+      <Target className="h-4 w-4 text-yellow-400" />
+      <AlertTitle className="text-yellow-400 font-semibold">
         Intervenção Prioritária — {quaseAprovados.length} Quase Aprovados
       </AlertTitle>
       <AlertDescription className="mt-3">
@@ -43,7 +43,7 @@ export function PainelQuaseAprovados({ quaseAprovados }: PainelQuaseAprovadosPro
                   </div>
                   <Badge
                     variant="outline"
-                    className="ml-2 shrink-0 bg-yellow-500/10 text-yellow-500 border-yellow-500/20 text-xs"
+                    className="ml-2 shrink-0 bg-yellow-500/10 text-yellow-400 border-yellow-500/20 text-xs"
                   >
                     falta {falta.toFixed(1)}
                   </Badge>
