@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import type { TurmaCodigo } from '@/lib/calculos'
+import { calcularScoreEngajamento } from '@/lib/calculos'
 import { useAlunos } from '@/hooks/useAlunos'
 import { FiltroTurma } from '@/components/visao-geral/FiltroTurma'
 import { KpiCardsRisco } from '@/components/alerta-precoce/KpiCardsRisco'
@@ -18,6 +19,13 @@ export function AlertaPrecoce() {
 
   const emMelhoria = useMemo(
     () => alunosEmRisco.filter((a) => a.tendencia === '↑').length,
+    [alunosEmRisco],
+  )
+
+  const scoreMedio = useMemo(
+    () => alunosEmRisco.length > 0
+      ? Math.round(alunosEmRisco.reduce((sum, a) => sum + calcularScoreEngajamento(a), 0) / alunosEmRisco.length)
+      : 0,
     [alunosEmRisco],
   )
 
@@ -43,7 +51,7 @@ export function AlertaPrecoce() {
         quaseAprovados={quaseAprovadosFiltrados.length}
         emMelhoria={emMelhoria}
       />
-      <CardScoreExplicativo />
+      <CardScoreExplicativo scoreMedio={scoreMedio} />
       <TabelaRisco alunos={alunosEmRisco} />
       <PainelQuaseAprovados quaseAprovados={quaseAprovadosFiltrados} />
     </div>
