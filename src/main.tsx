@@ -3,11 +3,14 @@ import { createRoot } from 'react-dom/client'
 import { ThemeProvider } from 'next-themes'
 import './index.css'
 import App from './App.tsx'
+import { AlunosProvider } from './contexts/AlunosContext'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-      <App />
+      <AlunosProvider>
+        <App />
+      </AlunosProvider>
     </ThemeProvider>
   </StrictMode>,
 )

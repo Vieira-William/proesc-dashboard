@@ -2,7 +2,7 @@
 // Segue padrão shadcn/ui Sidebar (New York)
 // Desktop: sidebar fixa | Mobile: Sheet via SidebarProvider
 
-import { BarChart3, GraduationCap, LayoutDashboard, ShieldAlert, Sparkles } from 'lucide-react'
+import { BarChart3, LayoutDashboard, ShieldAlert, Sparkles } from 'lucide-react'
 import {
   Sidebar,
   SidebarContent,
@@ -17,6 +17,8 @@ import {
   SidebarRail,
   useSidebar,
 } from '@/components/ui/sidebar'
+
+import { UploadJSON } from './UploadJSON'
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -99,12 +101,9 @@ export function AppSidebar({ paginaAtiva, onNavegar }: AppSidebarProps) {
         </SidebarGroup>
       </SidebarContent>
 
-      {/* Rodapé — turma / contexto */}
-      <SidebarFooter className="p-4 pt-2">
-        <div className="group-data-[collapsible=icon]:hidden flex items-center gap-2 text-xs text-sidebar-foreground/50">
-          <GraduationCap className="size-3.5 shrink-0" />
-          <span className="truncate">3º Ano — 2026</span>
-        </div>
+      {/* Rodapé — Upload JSON (exclusivo desktop por expandir o Menu, colapsado apenas ícone de config visível na tooltip) */}
+      <SidebarFooter className="p-2">
+        <UploadJSON />
       </SidebarFooter>
 
       {/* Rail para redimensionamento */}
@@ -112,3 +111,4 @@ export function AppSidebar({ paginaAtiva, onNavegar }: AppSidebarProps) {
     </Sidebar>
   )
 }
+

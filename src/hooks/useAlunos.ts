@@ -4,6 +4,7 @@
 
 import { useMemo } from 'react'
 import alunosRaw from '../data/alunos.json'
+import { useAlunosContext } from '../contexts/AlunosContext'
 import {
   type Aluno,
   type AlunoProcessado,
@@ -23,11 +24,11 @@ import {
 // ─── Interface pública do hook ────────────────────────────────────────────────
 
 export interface DadosProcessados {
-  /** Todos os 100 alunos enriquecidos com campos calculados */
+  /** Todos os alunos (originais + adicionais) enriquecidos com campos calculados */
   alunos: AlunoProcessado[]
   /** Alunos filtrados pela turma selecionada (ou todos se 'todas') */
   alunosFiltrados: AlunoProcessado[]
-  /** Métricas globais sobre os 100 alunos */
+  /** Métricas globais sobre os alunos combinados */
   metricas: MetricasGlobais
   /** Métricas individuais por turma */
   metricasPorTurma: Record<TurmaCodigo, MetricasTurma>
@@ -50,11 +51,17 @@ export interface DadosProcessados {
  *   Todas as outras métricas sempre consideram os 100 alunos.
  */
 export function useAlunos(turmaFiltro: TurmaCodigo | 'todas' = 'todas'): DadosProcessados {
-  const alunos = alunosRaw as Aluno[]
+  const { arquivosAdicionais } = useAlunosContext()
+  
+  const alunosCombinados = useMemo(() => {
+    const originais = alunosRaw as Aluno[]
+    const extras = arquivosAdicionais.flatMap(a => a.data)
+    return [...originais, ...extras]
+  }, [arquivosAdicionais])
 
   return useMemo(() => {
     // Processar todos os alunos uma vez
-    const todosProcessados = alunos.map(processarAluno)
+    const todosProcessados = alunosCombinados.map(processarAluno)
 
     // Filtro por turma (afeta apenas alunosFiltrados)
     const alunosFiltrados =
@@ -62,14 +69,14 @@ export function useAlunos(turmaFiltro: TurmaCodigo | 'todas' = 'todas'): DadosPr
         ? todosProcessados
         : todosProcessados.filter(a => a.turma === turmaFiltro)
 
-    // Métricas globais (sempre sobre 100 alunos)
-    const metricas = calcularMetricasGlobais(alunos)
+    // Métricas globais (sempre sobre todos os alunos)
+    const metricas = calcularMetricasGlobais(alunosCombinados)
 
     // Métricas por turma
     const metricasPorTurma: Record<TurmaCodigo, MetricasTurma> = {
-      '3A': calcularMetricasTurma(alunos, '3A'),
-      '3B': calcularMetricasTurma(alunos, '3B'),
-      '3C': calcularMetricasTurma(alunos, '3C'),
+      '3A': calcularMetricasTurma(alunosCombinados, '3A'),
+      '3B': calcularMetricasTurma(alunosCombinados, '3B'),
+      '3C': calcularMetricasTurma(alunosCombinados, '3C'),
     }
 
     return {
@@ -77,11 +84,11 @@ export function useAlunos(turmaFiltro: TurmaCodigo | 'todas' = 'todas'): DadosPr
       alunosFiltrados,
       metricas,
       metricasPorTurma,
-      quaseAprovados: calcQuaseAprovados(alunos),
-      rankingTop10: rankingTop(alunos, 10),
-      rankingPiores10: rankingPiores(alunos, 10),
-      distribuicaoFaixas: distribuicaoFaixas(alunos),
+      quaseAprovados: calcQuaseAprovados(alunosCombinados),
+      rankingTop10: rankingTop(alunosCombinados, 10),
+      rankingPiores10: rankingPiores(alunosCombinados, 10),
+      distribuicaoFaixas: distribuicaoFaixas(alunosCombinados),
     }
-  }, [turmaFiltro]) // eslint-disable-line react-hooks/exhaustive-deps
-  // alunos é constante (JSON estático) — não precisa entrar nas deps
+  }, [turmaFiltro, alunosCombinados])
 }
+
