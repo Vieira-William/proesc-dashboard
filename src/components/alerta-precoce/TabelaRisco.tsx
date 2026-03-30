@@ -135,8 +135,22 @@ export function TabelaRisco({ alunos }: TabelaRiscoProps) {
                     <TooltipTrigger asChild>
                       <span className="cursor-help flex items-center justify-center gap-1">Score <Info className="h-3 w-3 text-muted-foreground/50" /></span>
                     </TooltipTrigger>
-                    <TooltipContent side="bottom" className="max-w-[280px] text-xs">
-                      <p>Score de Engajamento (0-100): Desempenho (40%) · Consistência (20%) · Evolução (25%) · Patamar mínimo (15%). Quanto menor, mais urgente a intervenção.</p>
+                    <TooltipContent side="bottom" className="max-w-[320px]">
+                      <div className="space-y-2">
+                        <p className="text-xs font-medium text-foreground">Como funciona o Score</p>
+                        <div className="space-y-1 text-xs text-muted-foreground">
+                          <p><span className="font-medium text-foreground">Desempenho (40%)</span> — Média final</p>
+                          <p><span className="font-medium text-foreground">Evolução (25%)</span> — Melhoria B1→B4</p>
+                          <p><span className="font-medium text-foreground">Consistência (20%)</span> — Estabilidade das notas</p>
+                          <p><span className="font-medium text-foreground">Patamar Mín. (15%)</span> — Nunca nota muito baixa</p>
+                        </div>
+                        <div className="flex gap-3 pt-1 text-[10px]">
+                          <span className="text-red-400">0-30 Crítico</span>
+                          <span className="text-amber-400">31-50 Atenção</span>
+                          <span className="text-yellow-400">51-70 Monitorar</span>
+                          <span className="text-primary">71+ Saudável</span>
+                        </div>
+                      </div>
                     </TooltipContent>
                   </Tooltip>
                 </TableHead>
