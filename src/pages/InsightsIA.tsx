@@ -1,11 +1,8 @@
 import { useState, useCallback, useMemo, useRef, useEffect } from 'react'
-import { Sparkles, Send, RefreshCw, Trash2 } from 'lucide-react'
+import { Bot, User, Paperclip, ArrowUp } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
+import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { useAlunos } from '@/hooks/useAlunos'
 import { gerarInsights, chatComIA, type MensagemChat } from '@/lib/groqClient'
 import { montarPrompt, montarContextoChat } from '@/lib/promptInsights'
@@ -17,32 +14,37 @@ interface MensagemUI {
   content: string
 }
 
+// ─── Mensagem inicial (briefing executivo) ──────────────────────────────────
+
+const mensagemInicial: MensagemUI = {
+  role: 'assistant',
+  content: `## Diagnóstico Geral — Escola 3º Ano 2026
+
+A escola tem média geral de **6.82** com **67% de aprovação**. A tendência é positiva (6.55 no B1 → 7.09 no B4).
+
+### Pontos de Atenção
+- **33 alunos reprovaram** (33%) — taxa alta para escola particular
+- **Turma 3B** concentra o problema: 48.5% de reprovação (quase 3x a 3A)
+- **16 "quase aprovados"** ficaram a menos de 1 ponto da aprovação
+
+### Insight Chave
+100% dos alunos com nota B1 < 6 reprovaram. Precisão de 100% como preditor.
+
+### Impacto Financeiro
+R$49.500/mês em receita vulnerável (estimativa: 33 reprovados × 30% churn × R$1.500 mensalidade).
+
+*Faça uma pergunta para explorar os dados em mais profundidade.*`,
+}
+
 // ─── Sugestões ──────────────────────────────────────────────────────────────
 
 const sugestoes = [
-  { texto: 'Gerar diagnóstico completo', destaque: true },
-  { texto: 'Por que a 3B tem desempenho tão baixo?', destaque: false },
-  { texto: 'Qual o impacto financeiro total da reprovação?', destaque: false },
-  { texto: 'Quais alunos priorizar para intervenção?', destaque: false },
-  { texto: 'Quem são os alunos destaque?', destaque: false },
-  { texto: 'Compare a evolução das turmas', destaque: false },
+  'Por que a turma 3B tem desempenho tão baixo?',
+  'Qual o impacto financeiro da reprovação?',
+  'Quais alunos poderiam ser salvos com intervenção?',
+  'Quem são os alunos destaque?',
+  'Compare o desempenho entre as turmas',
 ]
-
-function montarBriefing(m: { reprovados: number; percentualAprovacao: number; quaseAprovados: number }): MensagemUI {
-  const receitaMensal = m.reprovados * 1500
-  return {
-    role: 'assistant',
-    content: `📊 **Briefing Executivo — 3º Ano 2026**
-
-• **${m.reprovados} reprovados (${(100 - m.percentualAprovacao).toFixed(0)}%)** com R$ ${receitaMensal.toLocaleString('pt-BR')}/mês em receita em risco
-• **Turma 3B** é crítica: apenas 51.5% de aprovação (vs 82.4% da 3A)
-• **${m.quaseAprovados} alunos** podem ser salvos com intervenção — faltam 0.5 a 1.0 pontos
-• **100%** dos reprovados tinham nota B1 < 6 → alerta precoce no B1 preveniria todas as reprovações
-• Tendência geral positiva: média subiu de 6.55 (B1) para 7.09 (B4)
-
-💡 Clique em uma sugestão abaixo ou faça sua própria pergunta.`,
-  }
-}
 
 // ─── Componente ─────────────────────────────────────────────────────────────
 
@@ -51,41 +53,22 @@ export function InsightsIA() {
   const contextoDados = useMemo(() => montarContextoChat(dados), [dados])
   const promptCompleto = useMemo(() => montarPrompt(dados), [dados])
 
-  const briefing = useMemo(
-    () => montarBriefing({
-      reprovados: dados.metricas.reprovados,
-      percentualAprovacao: dados.metricas.percentualAprovacao,
-      quaseAprovados: dados.quaseAprovados.length,
-    }),
-    [dados],
-  )
-
-  const [mensagens, setMensagens] = useState<MensagemUI[]>([])
+  const [mensagens, setMensagens] = useState<MensagemUI[]>([mensagemInicial])
   const [inputTexto, setInputTexto] = useState('')
   const [gerando, setGerando] = useState(false)
-  const [mostrarChips, setMostrarChips] = useState(true)
 
-  // Inicializar com briefing
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  // Auto-scroll
   useEffect(() => {
-    if (mensagens.length === 0) {
-      setMensagens([briefing])
-    }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  const scrollRef = useRef<HTMLDivElement>(null)
-
-  // Auto-scroll quando novas mensagens aparecem
-  useEffect(() => {
-    if (scrollRef.current) {
-      const el = scrollRef.current.querySelector('[data-radix-scroll-area-viewport]')
-      if (el) el.scrollTop = el.scrollHeight
-    }
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [mensagens])
+
+  // ─── Enviar mensagem ────────────────────────────────────────────────────
 
   const enviarMensagem = useCallback(
     async (texto: string, isDiagnostico = false) => {
       if (gerando) return
-      setMostrarChips(false)
       setGerando(true)
 
       const novaMsgUser: MensagemUI = { role: 'user', content: texto }
@@ -94,15 +77,12 @@ export function InsightsIA() {
 
       try {
         let resposta = ''
-
         if (isDiagnostico) {
-          // Usar gerarInsights para analise completa
           for await (const token of gerarInsights(promptCompleto)) {
             resposta += token
             setMensagens([...historicoAtual, { role: 'assistant', content: resposta }])
           }
         } else {
-          // Usar chatComIA para perguntas
           const msgParaAPI: MensagemChat[] = historicoAtual.map((m) => ({
             role: m.role,
             content: m.content,
@@ -115,7 +95,7 @@ export function InsightsIA() {
       } catch {
         setMensagens([
           ...historicoAtual,
-          { role: 'assistant', content: 'Erro ao processar sua solicitação. Verifique a conexão e tente novamente.' },
+          { role: 'assistant', content: 'Desculpe, não consegui processar sua pergunta. Tente novamente.' },
         ])
       } finally {
         setGerando(false)
@@ -124,16 +104,8 @@ export function InsightsIA() {
     [mensagens, gerando, contextoDados, promptCompleto],
   )
 
-  const handleChipClick = (texto: string) => {
-    if (texto === 'Gerar diagnóstico completo') {
-      enviarMensagem('Gere um diagnóstico completo dos dados', true)
-    } else {
-      enviarMensagem(texto)
-    }
-  }
-
   const handleEnviar = () => {
-    if (!inputTexto.trim()) return
+    if (!inputTexto.trim() || gerando) return
     enviarMensagem(inputTexto.trim())
     setInputTexto('')
   }
@@ -145,135 +117,140 @@ export function InsightsIA() {
     }
   }
 
-  const limpar = () => {
-    setMensagens([briefing])
-    setMostrarChips(true)
-    setGerando(false)
+  const handleChipClick = (texto: string) => {
+    enviarMensagem(texto)
   }
 
-  const temMensagens = mensagens.length > 1 // briefing always present
+  const mostrarChips = mensagens.length <= 1
+
+  // ─── JSX ────────────────────────────────────────────────────────────────
 
   return (
-    <div className="flex flex-col h-[calc(100vh-8rem)]">
-      {/* Header */}
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between pb-4 shrink-0">
-        <div className="flex items-center gap-2">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Badge variant="outline" className="text-xs cursor-help">Llama 3.3 70B</Badge>
-            </TooltipTrigger>
-            <TooltipContent side="bottom" className="max-w-[280px] text-xs">
-              <p>Modelo de IA utilizado. Llama 3.3 70B é um modelo de linguagem de grande porte da Meta, otimizado para análise e raciocínio.</p>
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Badge variant="outline" className="text-xs text-muted-foreground cursor-help">via Groq</Badge>
-            </TooltipTrigger>
-            <TooltipContent side="bottom" className="max-w-[280px] text-xs">
-              <p>Infraestrutura de processamento de IA. Groq oferece inferência ultrarrápida, permitindo respostas em segundos.</p>
-            </TooltipContent>
-          </Tooltip>
-        </div>
-        {temMensagens && (
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={limpar} disabled={gerando}>
-              <Trash2 className="mr-1.5 h-3.5 w-3.5" />
-              Limpar
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => { limpar(); setTimeout(() => enviarMensagem('Gere um diagnóstico completo dos dados', true), 50) }}
-              disabled={gerando}
-            >
-              <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
-              Gerar Novamente
-            </Button>
+    <div className="flex flex-col h-[calc(100vh-4rem)] relative">
+      {/* Área de mensagens */}
+      <div className="flex-1 overflow-y-auto">
+        {mensagens.length === 0 ? (
+          /* Empty state */
+          <div className="flex flex-col items-center justify-center h-full px-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 mb-4">
+              <Bot className="h-6 w-6 text-primary" />
+            </div>
+            <h2 className="text-lg font-semibold text-foreground mb-1">
+              Assistente de Dados Educacionais
+            </h2>
+            <p className="text-sm text-muted-foreground text-center max-w-md">
+              Pergunte sobre desempenho dos alunos, análise de risco, comparação
+              entre turmas e recomendações de intervenção.
+            </p>
+          </div>
+        ) : (
+          /* Lista de mensagens */
+          <div className="max-w-2xl mx-auto w-full px-4 py-6 space-y-6">
+            {mensagens.map((msg, i) => (
+              <div key={i} className="flex gap-3">
+                {/* Avatar */}
+                {msg.role === 'assistant' ? (
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 mt-0.5">
+                    <Bot className="h-4 w-4 text-primary" />
+                  </div>
+                ) : (
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted mt-0.5">
+                    <User className="h-4 w-4 text-muted-foreground" />
+                  </div>
+                )}
+
+                {/* Conteúdo */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-medium text-muted-foreground mb-1">
+                    {msg.role === 'assistant' ? 'Assistente IA' : 'Você'}
+                  </p>
+
+                  {msg.content === '' && gerando ? (
+                    /* Loading dots */
+                    <div className="flex items-center gap-1.5 h-5">
+                      <div className="h-2 w-2 rounded-full bg-primary/40 animate-bounce [animation-delay:0ms]" />
+                      <div className="h-2 w-2 rounded-full bg-primary/40 animate-bounce [animation-delay:150ms]" />
+                      <div className="h-2 w-2 rounded-full bg-primary/40 animate-bounce [animation-delay:300ms]" />
+                    </div>
+                  ) : msg.role === 'assistant' ? (
+                    <div className="prose prose-sm max-w-none
+                                    prose-p:text-sm prose-p:text-foreground/90 prose-p:leading-relaxed
+                                    prose-headings:text-foreground prose-headings:font-semibold
+                                    prose-strong:text-foreground prose-strong:font-semibold
+                                    prose-li:text-foreground/90 prose-li:text-sm
+                                    prose-ul:my-2 prose-ol:my-2">
+                      <ReactMarkdown>{msg.content}</ReactMarkdown>
+                      {gerando && i === mensagens.length - 1 && (
+                        <span className="inline-block w-2 h-4 bg-primary animate-pulse ml-0.5" />
+                      )}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-foreground">{msg.content}</p>
+                  )}
+                </div>
+              </div>
+            ))}
+            <div ref={messagesEndRef} />
           </div>
         )}
       </div>
 
-      {/* Área de mensagens */}
-      <ScrollArea className="flex-1 rounded-lg border" ref={scrollRef}>
-        <div className="flex flex-col gap-4 p-4 min-h-full">
-          {/* Mensagens */}
-          {mensagens.map((msg, i) => (
-            <div
-              key={i}
-              className={`flex flex-col gap-1 ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
-            >
-              {msg.role === 'assistant' && (
-                <div className="flex items-center gap-2 mb-0.5">
-                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 shrink-0">
-                    <Sparkles className="h-4 w-4 text-primary" />
-                  </div>
-                  <span className="text-[10px] text-muted-foreground font-medium">Proesc IA</span>
-                </div>
-              )}
-              <div
-                className={`max-w-[90%] sm:max-w-[80%] rounded-lg px-4 py-3 ${
-                  msg.role === 'user'
-                    ? 'bg-primary/10 border border-primary/20'
-                    : 'bg-muted/50 border border-border/50'
-                }`}
+      {/* Input fixo no bottom */}
+      <div className="sticky bottom-0 bg-background pb-4 pt-2">
+        <div className="max-w-2xl mx-auto w-full px-4">
+          <div className="relative rounded-2xl border border-border bg-card shadow-sm">
+            <Textarea
+              value={inputTexto}
+              onChange={(e) => setInputTexto(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Pergunte sobre os dados dos alunos..."
+              className="min-h-[52px] max-h-[200px] resize-none border-0 bg-transparent
+                         px-4 pt-3.5 pb-10 text-sm focus-visible:ring-0
+                         focus-visible:ring-offset-0 placeholder:text-muted-foreground/50"
+              rows={1}
+              disabled={gerando}
+            />
+            <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between">
+              <button
+                className="flex h-8 w-8 items-center justify-center rounded-lg
+                           text-muted-foreground/50 hover:text-muted-foreground
+                           hover:bg-muted/50 transition-colors"
+                type="button"
+                disabled
               >
-                {msg.content === '' && gerando ? (
-                  <div className="flex gap-1 py-2">
-                    <div className="w-2 h-2 rounded-full bg-muted-foreground/40 animate-bounce [animation-delay:0ms]" />
-                    <div className="w-2 h-2 rounded-full bg-muted-foreground/40 animate-bounce [animation-delay:150ms]" />
-                    <div className="w-2 h-2 rounded-full bg-muted-foreground/40 animate-bounce [animation-delay:300ms]" />
-                  </div>
-                ) : msg.role === 'user' ? (
-                  <p className="text-sm">{msg.content}</p>
-                ) : (
-                  <div className="prose prose-sm prose-invert max-w-none [&_h1]:text-base [&_h1]:font-semibold [&_h1]:mt-4 [&_h1]:mb-2 [&_h2]:text-sm [&_h2]:font-semibold [&_h2]:mt-4 [&_h2]:mb-1 [&_h3]:text-sm [&_h3]:font-medium [&_h3]:mt-3 [&_h3]:mb-1 [&_p]:text-sm [&_p]:text-muted-foreground [&_p]:leading-relaxed [&_p]:my-1.5 [&_li]:text-sm [&_li]:text-muted-foreground [&_strong]:text-foreground [&_ul]:my-1.5 [&_ol]:my-1.5">
-                    <ReactMarkdown>{msg.content}</ReactMarkdown>
-                    {gerando && i === mensagens.length - 1 && (
-                      <span className="inline-block w-2 h-4 bg-primary animate-pulse ml-0.5" />
-                    )}
-                  </div>
-                )}
-              </div>
+                <Paperclip className="h-4 w-4" />
+              </button>
+              <Button
+                onClick={handleEnviar}
+                disabled={!inputTexto.trim() || gerando}
+                size="icon"
+                className="h-8 w-8 rounded-lg"
+              >
+                <ArrowUp className="h-4 w-4" />
+              </Button>
             </div>
-          ))}
+          </div>
+        </div>
 
-          {/* Chips de sugestão */}
-          {mostrarChips && (
-            <div className="flex flex-wrap gap-2 mt-2">
-              {sugestoes.map((s) => (
-                <Badge
-                  key={s.texto}
-                  variant="outline"
-                  className="cursor-pointer transition-colors text-xs py-1.5 px-3 rounded-full text-muted-foreground hover:text-foreground hover:border-primary/30"
-                  onClick={() => handleChipClick(s.texto)}
+        {/* Suggestion chips */}
+        {mostrarChips && (
+          <div className="max-w-2xl mx-auto w-full px-4 mt-3">
+            <div className="flex flex-wrap gap-2 justify-center">
+              {sugestoes.map((texto) => (
+                <button
+                  key={texto}
+                  onClick={() => handleChipClick(texto)}
+                  className="rounded-full border border-border px-3.5 py-1.5
+                             text-xs text-muted-foreground
+                             hover:bg-muted/50 hover:text-foreground
+                             transition-colors cursor-pointer"
                 >
-                  {s.destaque && <Sparkles className="mr-1 h-3 w-3" />}
-                  {s.texto}
-                </Badge>
+                  {texto}
+                </button>
               ))}
             </div>
-          )}
-        </div>
-      </ScrollArea>
-
-      {/* Input fixo */}
-      <div className="flex gap-2 pt-4 shrink-0 border-t border-border/50 mt-0 -mx-4 px-4 lg:-mx-6 lg:px-6 pb-0 bg-background/80 backdrop-blur-sm">
-        <Input
-          placeholder="Faça uma pergunta sobre os dados..."
-          value={inputTexto}
-          onChange={(e) => setInputTexto(e.target.value)}
-          onKeyDown={handleKeyDown}
-          disabled={gerando}
-          className="flex-1 bg-muted/30 border-border/50"
-        />
-        <Button
-          size="icon"
-          disabled={gerando || !inputTexto.trim()}
-          onClick={handleEnviar}
-        >
-          <Send className="h-4 w-4" />
-        </Button>
+          </div>
+        )}
       </div>
     </div>
   )
