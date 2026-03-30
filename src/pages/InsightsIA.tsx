@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo, useRef, useEffect } from 'react'
-import { Bot, User, Paperclip, ArrowUp } from 'lucide-react'
+import { Bot, User, ArrowUp } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
@@ -210,16 +210,7 @@ export function InsightsIA() {
               rows={1}
               disabled={gerando}
             />
-            <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between">
-              <button
-                className="flex h-8 w-8 items-center justify-center rounded-lg
-                           text-muted-foreground/50 hover:text-muted-foreground
-                           hover:bg-muted/50 transition-colors"
-                type="button"
-                disabled
-              >
-                <Paperclip className="h-4 w-4" />
-              </button>
+            <div className="absolute bottom-2 left-2 right-2 flex items-center justify-end">
               <Button
                 onClick={handleEnviar}
                 disabled={!inputTexto.trim() || gerando}
