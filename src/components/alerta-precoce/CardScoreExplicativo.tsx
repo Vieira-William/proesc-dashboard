@@ -57,8 +57,23 @@ export function CardScoreExplicativo({ scoreMedio }: CardScoreExplicativoProps) 
             <TooltipTrigger asChild>
               <Info className="h-3.5 w-3.5 text-muted-foreground/40 hover:text-muted-foreground transition-colors cursor-help shrink-0" />
             </TooltipTrigger>
-            <TooltipContent side="bottom" className="max-w-[250px] text-xs">
-              <p>Score multidimensional que combina 4 indicadores para medir o nível de engajamento e risco de cada aluno.</p>
+            <TooltipContent side="right" className="max-w-[320px]">
+              <div className="space-y-2">
+                <p className="text-xs font-medium text-foreground">Como funciona o Score</p>
+                <p className="text-xs text-muted-foreground">Combina 4 dimensões derivadas dos dados:</p>
+                <div className="space-y-1 text-xs text-muted-foreground">
+                  <p><span className="font-medium text-foreground">Desempenho (40%)</span> — Média final</p>
+                  <p><span className="font-medium text-foreground">Evolução (25%)</span> — Melhoria B1→B4</p>
+                  <p><span className="font-medium text-foreground">Consistência (20%)</span> — Estabilidade das notas</p>
+                  <p><span className="font-medium text-foreground">Patamar Mín. (15%)</span> — Nunca nota muito baixa</p>
+                </div>
+                <div className="flex gap-3 pt-1 text-[10px]">
+                  <span className="text-red-400">0-30 Crítico</span>
+                  <span className="text-amber-400">31-50 Atenção</span>
+                  <span className="text-yellow-400">51-70 Monitorar</span>
+                  <span className="text-primary">71+ Saudável</span>
+                </div>
+              </div>
             </TooltipContent>
           </Tooltip>
         </div>
